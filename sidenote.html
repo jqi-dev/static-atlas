@@ -1,0 +1,59 @@
+<html>
+  <head>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sidenote-demo</title>
+    <link rel="stylesheet" href="tachyons.css">
+    <link rel="stylesheet" type="text/css" media="all" href="styles.css"/>
+    <link href="https://fonts.googleapis.com/css?family=Lora" rel="stylesheet">
+    <style>
+    @media screen and (min-width: 60em) {
+      .sidenote {
+        margin-right:-35%;
+      }
+    }
+    .sidenote {
+      /* opacity:0;
+      visibility: : hidden;
+      position: absolute;
+      -webkit-transition: opacity 600ms, visibility 600ms, position 600ms;
+      transition: opacity 600ms, visibility 600ms, position 600ms; */
+      display: none;
+      opacity: 0;
+      animation: fade 1s;
+    }
+
+    @keyframes fade {
+        0% {
+            opacity: 0;
+        }
+
+        100% {
+            opacity: 1;
+        }
+    }
+
+    .selector {
+      cursor: pointer;
+    }
+    </style>
+  </head>
+  <body class="bg-lightest-gray lora lh-copy f5-ns f6 dark-gray mt5">
+    <div class="ml3-m mr3-m mt3-m mt4-l mt3">
+     <div class="items-center block center mw8 w-100 pa3 pa0-m pt0">
+       <p class="w-50-l w-80 mw7 center">
+         Quantum superposition—in which two or more wave-like quantum states are combined into a single new state—may seem incomprehensibly weird, like plopping an apple next to an orange and calling the pair a grapefruit.
+       </p>
+       <p class="w-50-l w-80 center mt2">But superposition is just the way that waves interact. It’s at work every time you strum a guitar and hear the tones from each string harmonize into a rich chord. You can see it in the ripples that dance on the surface of a pond after tossing in a handful of pebbles—the disturbances bump into each other and <span class="blue selector" onclick="toggle('sidenote-1')">interfere<span class="f6 pb2 relative" style="top:-.5rem;">⊕</span></span>
+       <span class="sidenote f7 sans-serif lh-copy fr w-30-l pr5 pl5 mb3 mt3 pa0-l ma0-l mt1" id="sidenote-1"><span class="f6 pb2 blue relative" style="">⊕ </span>Quantum superposition—in which two or more wave-like quantum states are combined into a single new state—may seem incomprehensibly weird, like plopping an apple next to an orange and calling the pair a grapefruit.</span>
+       on their journey toward the shore. Both cases capture a generic feature: Overlapping waves combine, blending their undulations by addition. The resulting wave shape is just a point-by-point sum of the individual waves.</p>
+       <p class="w-50-l w-80 mw7 center mt2">But superposition is just the way that waves interact. It’s at work every time you strum a guitar and hear the tones from each string harmonize into a rich chord. You can see it in the ripples that dance on the surface of a pond after tossing in a handful of pebbles—the disturbances bump into each other and interfere on their journey toward the shore. Both cases capture a generic feature: Overlapping waves combine, blending their undulations by addition. The resulting wave shape is just a point-by-point sum of the individual waves.</p>
+     </div>
+   </div>
+   <script>
+   function toggle(id) {
+    var div = document.getElementById(id);
+    div.style.opacity = div.style.opacity == 0 ? 1 : 0;
+    div.style.display = div.style.display == "block" ? "none" : "block";
+  }
+  </script>
+ </body>

@@ -1,0 +1,94 @@
+<html>
+  <head>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+    <title>Quantum vs. Classical</title>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+    <script src="webcomponents-lite.js"></script>
+    <script src="xcomponent.js"></script>
+    <script src="script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.2.0/umd/react.development.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.2.0/umd/react-dom.development.js"></script> -->
+    <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js'></script>
+    <script src="iframeResizer.js"></script>
+    <script src="scroll.js"></script>
+    <link rel="stylesheet" href="tachyons.css">
+    <link rel="stylesheet" type="text/css" media="all" href="styles.css"/>
+    <link href="https://fonts.googleapis.com/css?family=Lora" rel="stylesheet">
+    <style>
+    @media screen and (min-width: 50em) {
+      .component-center {
+        top: 50%;
+        transform: translateY(-50%);
+      }
+      .component-top {
+        top: 50%;
+        transform: translateY(-50%);
+      }
+    }
+</style>
+  </head>
+  <body class="bg-lightest-gray lora lh-copy f5-ns f6 dark-gray mt5">
+    <header class="bg-white roboto gray top-0 cf mb0 bb w-100 b--black-10 fixed z-max">
+       <div class="mw9 center tc">
+         <h1 class="f4-l f5 fl pa1 pl3 mt3-l mt2 dn db-l">Quantum Atlas</h1>
+         <h1 class="f4-l f5 fl pa1 pl3 pr3 mt3-l mt2 db dn-l">QA</h1>
+         <form class="mt3-l mt2 mb2 black-80 dib w-60 w-80-l mw6">
+           <input id="name" class="input-reset gray ba b--black-20 pa2 br-pill db w-100" style="background: url(search.svg) no-repeat scroll 2px 2px; padding-left:40px;" type="text">
+         </form>
+         <div class="fr pa1 pt2-l mt3-l mt2 pr4-l pr3 f5">MENU</div>
+       </div>
+     </header>
+     <div class="ml4-m mr4-m ml3-l mr3-l mt5-m mt5-l mt3">
+       <div class="w-100-l mw9-l center pt3-l pt0">
+       <h1 class="f1-l tc tl-l f2 mr3 mt0 mb0 helvetica pl3 pt3 pr3 mt3"> Quantum measurement </h1>
+       <div class="w-100">
+         <h3 class="f4-l tc tl-l f5 gray i pl3 pr3 mb0 w-100">Where did I leave my quantum brick?</h3>
+       </div>
+     </div>
+     <div class="ml3-m mr3-m mt3-m mt4-l mt3">
+      <div class="flex items-center flex-wrap center mw9 pa3 pa0-m pt0">
+        <p class="w-100 w-50-l mr3-l">In the everyday world, determining the location of something—like, say, a brick—is as easy as sticking a GPS tracker on it. The same tracker could even provide a readout of the brick’s speed, by showing how the location changes over time. You could keep the GPS tracker on the brick and set the whole mess on a scale to measure its weight, all while continuing to tick off the brick’s position. If you’re not easily bored, you could measure other properties of the brick—some changing, some not—and you could pretty much measure them all at the same time.</p>
+        <p class="w-100 w-50-l mr3-l">That all goes out the window at the quantum scale. Measurements of a quantum brick—if there were such a thing—wouldn’t be so simple. For instance, measuring the location of a quantum brick could give you precise knowledge of where it sits, but you would no longer have any clue how fast it was moving. Then, if you instead pinned down its speed, all of a sudden its location would be smeared out in space. In the quantum world, measurements change the quantum state of an object, and the order in which they’re done matters a lot.</p>
+        <p class="w-100 w-50-l mr3-l">Another wrinkle is that even for simple quantum systems, it’s impossible to predict the outcome of a measurement with perfect certainty. The best you can do ahead of time is say what the probability of a certain result will be. This doesn’t help predict any one measurement, but it does tell you what will happen if you prepare the same quantum state and make the same measurement many times. The high degree to which this prediction matches what actually happens in experiments is a major source of our confidence that quantum physics really works.</p>
+        <p class="w-100 w-50-l mr3-l">In one sense, quantum measurements are actually kind of intuitive. Consider what happens after you flip a coin but before you peek at the result. It’s got a 50-50 chance of being heads or tails. That’s a little bit like zapping an atom with a laser to prepare an equal superposition of two states. Once you actually look at the coin, that 50-50 split vanishes, and you’re 100% certain of the answer. Isn’t that kind of like what’s going on when you measure something like the quantum state of an atom?</p>
+        <p class="w-100 w-50-l mr3-l">Kind of, but quantum physics is stranger. No one would seriously doubt that before you look at the coin it is definitely either heads or tails. But if you try to play the same game with the atom, imagining that it really has one state or the other beforehand and the measurement merely reveals which, you’ll be in for a disappointment. Quantum states don’t behave like that: An atom has no determined state before it’s measured.</p>
+        <p class="w-100 w-50-l mr3-l">Einstein at first famously rejected this whole idea of quantum indeterminacy. He insisted that quantum objects must have a complete set of properties—so far undiscovered—prior to any measurement. This idea is called “local realism”—local because it argues that an object’s properties are affected only by its immediate surroundings, and realism because an object has real, pre-existing properties before it is measured. </p>
+        <p class="w-100 w-50-l mr3-l">As it turns out, Einstein lost that argument. Since his contentious 1935 “EPR” article, scientists have produced an enormous body of experimental evidence supporting the view that objects have no specific properties before they are observed. Can’t win ‘em all.</p>
+    </div>
+  </div>
+  </article>
+  <div class="w-100 mw9 center tc">
+    <div class="ba b--black-20 pa5 ma3" style="height=8rem;">Map cutout</div>
+  </div>
+  <div class="w-100-l mw9-l center mt4 b--black-10 bb">
+    <h1 class="f3-l tc tl-l f4 helvetica pa3 mt0 mt3-l mb3"> Media gallery </h1>
+  </div>
+  <div class="mw9 center tc">
+    <div class="flex items-center justify-center pa4">
+      <a href="#0" class="mr3 mr0-l f5 no-underline dark-gray bg-animate hover-bg-dark-gray hover-white inline-flex items-center pa3 ba border-box">
+          <svg class="w1" data-icon="chevronLeft" viewBox="0 0 32 32" style="fill:currentcolor">
+            <title>chevronLeft icon</title>
+            <path d="M20 1 L24 5 L14 16 L24 27 L20 31 L6 16 z"></path>
+          </svg>
+      </a>
+      <div class="fl w-100 w-30-l ma3-l mb3 bg-gray h5"></div>
+      <div class="fl w-100 w-30-l ma3-l mb3 bg-gray h5"></div>
+      <div class="fl w-100 w-30-l ma3-l mb3 bg-gray h5"></div>
+      <a href="#0" class="ml3 ml0-l f5 no-underline dark-gray bg-animate hover-bg-dark-gray hover-white inline-flex items-center pa3 ba border-box">
+        <svg class="w1" data-icon="chevronRight" viewBox="0 0 32 32" style="fill:currentcolor">
+          <title>chevronRight icon</title>
+          <path d="M12 1 L26 16 L12 31 L8 27 L18 16 L8 5 z"></path>
+        </svg>
+      </a>
+    </div>
+  </div>
+</div>
+<div class="center bg-white bt b--black-10 roboto gray cf mt4">
+  <h1 class="f5 tc pa1">FOOTER</h1>
+  <!-- <x-foo-shadowdom></x-foo-shadowdom> -->
+  <div id="test"></div>
+</div>
+</body>
+<script>iFrameResize({log:false})</script>
+</html>
+</html>

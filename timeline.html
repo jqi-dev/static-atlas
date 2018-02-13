@@ -1,0 +1,85 @@
+<html>
+<head>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<link rel="stylesheet" href="tachyons.css">
+<style>
+text:hover {
+    cursor: pointer;
+}
+</style>
+</head>
+<body>
+  <div class="center w-100 mw6 tc" id="timeline"></div>
+</body>
+<script>
+
+const blue = "#357edd";
+const darkgray = "#333";
+const gray = "#555";
+
+var events = [
+  { "title": "Simple timeline showing", "year": 1930, "description": "this is a test"},
+  { "title": "Events that will link", "year": 1952, "description": "this is a test"},
+  { "title": "To the full atlas timeline", "year": 1978, "description": "this is a test"},
+  { "title": "On its own page", "year": 1994, "description": "this is a test"}];
+
+let min = Math.min.apply( null, events.map((v) => v.year));
+let max = Math.max.apply( null, events.map((v) => v.year));
+let span = max - min;
+const lineHeight = span * 4;
+
+  //Make an SVG Container
+var svgContainer = d3.select("#timeline").append("svg")
+                                         .attr("width", "100%")
+                                         .attr("height", lineHeight)
+//Draw the line
+var line = svgContainer.append("line")
+                         .attr("x1", 100)
+                         .attr("y1", 0)
+                         .attr("x2", 100)
+                         .attr("y2", lineHeight)
+                         .attr("stroke-width", 2)
+                         .attr("stroke", gray);
+
+var circles = svgContainer.selectAll('circle')
+                          .data(events)
+                          .enter()
+                          .append('circle')
+
+var circleAttr = circles
+                 .attr("cx", function (d) { return 100; })
+                 .attr("cy", function (d) { return (d.year - min) / span * (lineHeight - 40) + 20 })
+                 .attr("r", function (d) { return 6; })
+                 .style("fill", function(d) { return blue; })
+                 .style("stroke", darkgray)
+                 .style("stroke-width", 2);
+
+var yearText = svgContainer.selectAll('yearText')
+                       .data(events)
+                       .enter()
+                       .append('text');
+
+var yearLabel = yearText
+                .attr("x", function(d) { return 60 })
+                .attr("y", function(d) { return (d.year - min) / span * (lineHeight - 40) + 20 + 4; })
+                .text( function (d) { return d.year })
+                .attr("font-family", "sans-serif")
+                .attr("font-size", "11px")
+                .attr("fill", darkgray);
+
+var descText = svgContainer.selectAll('descText')
+                       .data(events)
+                       .enter()
+                       .append('text');
+
+var descLabel = descText
+                .attr("x", function(d) { return 120 })
+                .attr("y", function(d) { return (d.year - min) / span * (lineHeight - 40) + 20 + 5; })
+                .text( function (d) { return d.title })
+                .attr("font-family", "sans-serif")
+                .attr("font-size", "13px")
+                .attr("fill", darkgray)
+                .on("click", function() {});
+
+</script>
+</html>

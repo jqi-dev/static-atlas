@@ -1,0 +1,129 @@
+<html>
+  <head>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sidenote-demo</title>
+    <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js'></script>
+    <script src="iframeResizer.js"></script>
+    <link rel="stylesheet" href="tachyons.css">
+    <link rel="stylesheet" type="text/css" media="all" href="styles.css"/>
+    <link href="https://fonts.googleapis.com/css?family=Lora" rel="stylesheet">
+    <style>
+    @media screen and (min-width: 60em) {
+      .sidenote {
+        margin-right:-40%;
+        width: 35%
+      }
+      .atlas-entry {
+        margin-left:-32%;
+        position: fixed;
+        top:6.3rem;
+      }
+      .title {
+        margin-left:-13%;
+      }
+    }
+    body {
+      background-image: url(images/background-pattern.png);
+      background-size: 70px, auto;
+      /*linear-gradient(141deg, #3690ff 0%, #8383ff 100%); */
+      background-color: rgba(250, 250, 250, 0.75)
+    }
+    .article {
+      background-image: linear-gradient(to right, rgba(250, 250, 250, 0) 0%, rgba(250, 250, 250, 0.75) 5%, rgba(250, 250, 250, 0.75) 95%, rgba(250, 250, 250, 0) 100%);
+    }
+    .sidenote {
+      display: none;
+      opacity: 0;
+      animation: fade 1s;
+    }
+
+    #name {
+      background: url(search.svg) no-repeat scroll 2px 2px;
+      padding-left:40px;
+      background-color: rgba(240, 240, 240, 0.8);
+    }
+
+    .margin-note {
+      display: block !important;
+      opacity: 1 !important;
+    }
+
+    @keyframes fade {
+        0% {
+            opacity: 0;
+        }
+
+        100% {
+            opacity: 1;
+        }
+    }
+
+    .selector {
+      cursor: pointer;
+    }
+    </style>
+  </head>
+  <body class="lora lh-copy f5-ns f6 dark-gray">
+    <div class="center mw8 w-100 article pt3">
+      <div class="w-50 center">
+      <h1 class="f4-l f5 pa1 center pl3 pr3 fl mt3-l mt2 title gray">QA</h1>
+      <form class="mt3-l mt2 mb2 black-80 dib w-100 mw7">
+        <input id="name" class="input-reset gray ba b--black-20 pa2 br-pill db w-100" type="text">
+      </form>
+    </div>
+    <div class="ml3-m mr3-m mt3-m">
+     <div class="items-center block pa0-m pt0">
+       <div class="w-50-l mw7-l center pt3-l pt0 mb3">
+         <span class="atlas-entry f7 sans-serif lh-copy fl w-30-l pr5 pl5 mb3 mt3 pa0-l ma0-l mt1 tr" id=""><span class="blue pointer fr">Atlas Entry <span class="f7 pb2 blue relative" style=""> ›</span></span><br><b class="f6 underline">Quantum Superposition</b><br><br><span class="fr tr">Categories<br>Related Entries<br>Related Media<br><br><span class="blue pointer fr"><span class="f7 pb2 blue relative" style=""> ‹ </span>Return to Map</span></span></span>
+       <h1 class="f3-l tc tl-l f4 mt0 mb0 helvetica mb2"> Quantum superposition </h1><hr class="mt0">
+      </div>
+       <p class="w-50-l w-80 mw7 center mt0">
+         Quantum superposition—in which two or more wave-like quantum states are combined into a single new state—may seem incomprehensibly weird, like plopping an apple next to an orange and calling the pair a grapefruit.
+       </p>
+       <!-- <div class="w-50-l w-50-l w-80 mw6 center mt0 tc">
+         <img src="images/Superpos_Grapefruit.jpg" class="pl3 pr3 pb2 mw5" style="width: 50% ;float: center ;"/>
+       </div> -->
+       <p class="w-50-l w-80 center mt2">But superposition is just the way that waves interact. It’s at work every time you strum a guitar and hear the tones from each string harmonize into a rich chord. You can see it in the ripples that dance on the surface of a pond after tossing in a handful of pebbles—the disturbances bump into each other and <span class="blue selector" onclick="toggle('sidenote-1')">interfere<span class="f6 pb2 relative" style="top:-.5rem;">⊕</span></span>
+       <span class="sidenote f7 sans-serif lh-copy gray fr pr5 pl5 mb3 mt3 pa0-l ma0-l mt1" id="sidenote-1"><span class="f6 pb2 blue relative" style="">⊕ </span>Quantum superposition—in which two or more wave-like quantum states are combined into a single new state—may seem incomprehensibly weird, like plopping an apple next to an orange and calling the pair a grapefruit.</span>
+       on their journey toward the shore. Both cases capture a generic feature: Overlapping waves combine, blending their undulations by addition. The resulting wave shape is just a point-by-point sum of the individual waves.</p>
+       <div class="w-80-l pl5-l w-80 center mt2 mb4 pr5-l tc fr-l large-image">
+         <div class="w-100-l w-100">
+           <div class="relative w-100-l mt2 mt0-l">
+             <div  class="w-100 tc">
+                 <iframe src="images/three-js-waves/index.html" class="iframe w-100 v-mid" id="g731" scrolling="no" frameborder="0"></iframe>
+             </div>
+           </div>
+        </div>
+      </div>
+       <p class="w-50-l w-80 mw7 center mt2"><span class="sidenote margin-note f7 sans-serif lh-copy fr pr5 pl5 mb4 pa0-l ma0-l gray" id="">You’ll notice that the waves grow brighter or darker depending on how they overlap. This is due to constructive and destructive interference.</span>In quantum physics, the waves don’t need to be rippling through anything real. Quantum waves represent something different than the displacement of water or air molecules. They represent the likelihood of something happening. Just as water waves alternate between crests and troughs, quantum wave functions swing between higher and lower probabilities for various quantum properties.</p>
+       <p class="w-50-l w-80 mw7 center mt2">For instance, an electron bound to an atom can live at particular energy levels. If it’s sitting at one level, its location around the nucleus gets smeared out into a whole cloud of possibilities [shown in the diagram below/to the right for different energy levels]. It’s common to describe this by saying that the electron is in many places at once or everywhere at the same time. But that’s like saying the ripples on a pond are in many places at once; it’s true, but it isn’t all that helpful to talk about waves in those terms. The nature of a wave is to extend through many points, and it’s the properties of the whole wave—the frequency of its oscillations and the speed at which it travels, among others—that matter.</p>
+       <p class="w-50-l w-80 mw7 center mt2">The effects of quantum superposition can even be seen at real-world scales, much bigger than the submicroscopic realm of electrons and atoms. In a classic experiment, a beam of electrons was fired at a barrier containing two narrow slits, past which sat a sensitive detector that could register where an electron struck. If electrons were behaving like tiny billiard balls, you would expect the detector to see a pattern with two clusters of arrivals, one directly behind each slit. Instead, the detector saw an interference pattern, as though the electron were a wave.</p>
+       <div class="w-100 items-center flex-l mt4">
+         <div class="w-30-l w0"></div>
+         <div class="w-70-l w-100 mr2">
+           <div class="relative w-100-ns mt2 mt0-ns">
+             <div class="w-100 tc">
+               <div  class="w-100 mw6 center tc">
+                   <iframe src="images/two-slit/index.html" class="iframe w-100 v-mid" id="8471" scrolling="no" frameborder="0"></iframe>
+               </div>
+             </div>
+           </div>
+         </div>
+         <div style="height: 100px;" class="center pa2 pb0 pr5 w-30-l w-100 mt2 mw5">
+           <p class="w-100 f7 mw6 center sans-serif gray lh-copy">When passing through thin slits, electrons act as waves, producing an interference pattern.</p>
+         </div>
+       </div>
+       <p class="w-50-l w-80 mw7 center mt4-l mt0">It’s an experiment that challenges intuition, but quantum physics easily explains what’s going on. The two slits expose the wave-like behavior of single electrons by channeling them into a quantum superposition of “went through the left slit” and “went through the right slit.” Summing the two wave patterns generated by the electron waves emanating from both slits yields the pattern of alternating bands that the detector actually records.</p>
+       <p class="w-50-l w-80 mw7 center mt2">So the existence of quantum superpositions isn’t really up for debate. Still, some of the greatest minds in science have struggled with how to interpret quantum superposition as well as other features of quantum physics, and that struggle is still going on. There are now almost as many interpretations of quantum physics as there are quantum physicists, but they all agree that superposition is a necessary—and real—feature of the theory.</p>
+     </div>
+   </div>
+  </div>
+   <script>
+   function toggle(id) {
+    var div = document.getElementById(id);
+    div.style.opacity = div.style.opacity == 0 ? 1 : 0;
+    div.style.display = div.style.display == "block" ? "none" : "block";
+  }
+  </script>
+  <script>iFrameResize({log:false})</script>
+ </body>
