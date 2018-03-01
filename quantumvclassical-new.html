@@ -1,0 +1,352 @@
+<html>
+  <head>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sidenote-demo</title>
+    <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js'></script>
+    <script src="iframeResizer.js"></script>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <link rel="stylesheet" href="tachyons.css">
+    <link rel="stylesheet" type="text/css" media="all" href="styles.css"/>
+    <link rel="stylesheet" type="text/css" media="all" href="accordion_menu/accordion.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/d3-milestones@1.0.0-alpha8/build/d3-milestones.css">
+    <script src="https://unpkg.com/d3-milestones@1.0.0-alpha8/build/d3-milestones.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Lora" rel="stylesheet">
+    <style>
+    text:hover {
+        cursor: pointer;
+    }
+    @media screen and (min-width: 60em) {
+      .sidenote {
+        margin-right:-40%;
+        width: 35%
+      }
+      .atlas-entry {
+        margin-left:-33%; /* 32 */
+        position: fixed;
+         /*top:6.3rem;*/
+        /*top: 24.9rem;*/
+        top: 7.2rem;
+        /*top: 14rem;*/
+        z-index: 1 !important;
+      }
+      .title {
+        margin-left:-15%; /* 13 */
+      }
+    }
+    .lighter-gray {
+      background-color: rgba(250, 250, 250, 1)
+    }
+    .overlay {
+      background-color: rgba(250, 250, 250, 0.5)
+    }
+    .patterned {
+      background-image: url(images/background-pattern.png);
+      background-size: 70px, auto;
+    }
+    body {
+      /* background-image: url(images/background-pattern.png); */
+      background-size: 70px, auto;
+      /*linear-gradient(141deg, #3690ff 0%, #8383ff 100%); */
+      background-color: rgba(250, 250, 250, 0.75)
+    }
+    .article {
+      background-image: linear-gradient(to right, rgba(250, 250, 250, 0) 0%, rgba(250, 250, 250, 0.75) 5%, rgba(250, 250, 250, 0.75) 95%, rgba(250, 250, 250, 0) 100%);
+    }
+    .sidenote {
+      display: none;
+      opacity: 0;
+      animation: fade 1s;
+    }
+
+    .shadow-inner {
+      box-shadow: inset 0 0 10px #ddd;
+      background-color: rgba(240, 240, 240, 0.8);
+    }
+
+    .search-button {
+      background: url(search.svg) no-repeat scroll 2px 2px;
+      background-color: rgba(244, 244, 244, 0.8);
+    }
+
+    #name {
+      /* background: url(search.svg) no-repeat scroll 2px 2px; */
+      /* padding-left:40px; */
+      background-color: rgba(240, 240, 240, 0.8);
+    }
+
+    .margin-note {
+      display: block !important;
+      opacity: 1 !important;
+    }
+
+    .logo {
+      width: 40px;
+    }
+
+    @keyframes fade {
+        0% {
+            opacity: 0;
+        }
+
+        100% {
+            opacity: 1;
+        }
+    }
+
+    .footer {
+      opacity: 0.75;
+    }
+
+    .selector {
+      cursor: pointer;
+    }
+    </style>
+  </head>
+  <body class="lora lh-copy f5-ns f6 dark-gray">
+    <div class="center mw8 w-100 article pt1">
+      <div class="w-50 center">
+      <h1 class="f4-l f5 pa1 center pl3 pr3 fl title gray mt0">QA</h1>
+      <form class="mt3-l mt2 mb2 black-80 dib w-100 mw7 flex">
+        <input id="name" class="input-reset shadow-inner gray f6 ba b--black-20 pa2 db w-90" type="text" placeholder="Search">
+        <button class="w-10 bg-almost-white b--black-20" style="box-shadow: none; background-color: rgba(240, 240, 240, 0.8);"><img src="search.svg" style="center"></button>
+      </form>
+    </div>
+    <div class="ml3-m mr3-m mt3-m">
+     <div class="items-center block pa0-m pt0">
+        <!-- <h1 class="f3-l tc tl-l f4  mt4 w-90 center mt0 mb0 helvetica mb2"> Quantum superposition </h1><hr class="mt0 mw7-l center"> -->
+       <!-- <div class="h5 outline mt4 mb3 w-90 mw8 center relative tc"><p class="dib v-mid">Banner image<p></div> -->
+       <div class="w-50-l mw7-l center pt4-l pt0 mb3">
+         <span class="atlas-entry f7 sans-serif lh-copy fl w-30-l pr5 pl5 mb3 mt3 pa0-l ma0-l mt1 tr" id="">
+           <span class="blue pointer fr">Atlas Entry <span class="f7 pb2 blue relative" style=""> ›</span></span>
+           <br><b class="f6 underline">Quantum versus Classical</b><br><br><span class="fr tr">
+           <div class="accordion vertical">
+            <ul>
+                <li>
+                    <input type="checkbox" id="radio-1" name="radio-accordion" checked/>
+                    <label for="radio-1" class="">Categories</label>
+                    <div class="content gray pl2 pr2 shadow-inner fr mb2">
+                        <div class="pa1">
+                        Crazy Computing<br>
+                        Funky Fundamentals<br>
+                        Slippery Superpositions
+                      </div>
+                    </div>
+                </li>
+                <li>
+                    <input type="checkbox" id="radio-2" name="radio-accordion" checked/>
+                    <label for="radio-2">Related Entries</label>
+                    <div class="content gray pl2 pr2 shadow-inner fr mb2">
+                      <div class="pa1">
+                        Groundhogs<br>
+                        Badgers<br>
+                        Marmots<br>
+                        Mammals in general<br>
+                        Small animals<br>
+                        Large animals<br>
+                      </div>
+                    </div>
+                </li>
+                <li>
+                    <input type="checkbox" id="radio-3" name="radio-accordion" checked/>
+                    <label for="radio-3">Related Media</label>
+                    <div class="content gray pl2 pr2 shadow-inner fr mb2">
+                      <div class="pa1">
+                        Not<br>
+                        Necessarily<br>
+                        Here<br>
+                        But Another Metadata Item<br>
+                        Possibly <br>
+                      </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <br>
+           <span class="blue pointer fr"><span class="f7 pb2 blue relative" style="">‹ </span>Return to Map</span></span></span>
+       <!-- <h1 class="f3-l tc tl-l f4 mt0 mb0 helvetica mb2"> Quantum superposition </h1> -->
+       <h1 class="f2-l tc tl-l f4 mt0 mb0 helvetica"> Quantum versus Classical </h1>
+       <h3 class="f5 ma0 gray i">What is it that makes the quantum world different?</h3>
+       <!-- <hr class="mt0"> -->
+       <!-- <div class="ba b--light-gray mt3 mb4 center relative tc"><img src="images/ann-469777.jpg"></div> -->
+      </div>
+      <div class="w-80-l pl5-l w-80 center mb3 pr5-l tc fr-l large-image">
+        <div class="w-100-l w-100">
+          <div class="relative w-100-l mt0-l">
+            <div  class="w-100 tc">
+                <div class="ba b--light-gray mb3 center relative tc"><img src="images/andreas-gucklhorn-285567.jpg"></div>
+            </div>
+          </div>
+       </div>
+     </div>
+       <p class="w-50-l w-80 mw7 center mt0">
+         <span class="sidenote margin-note f7 sans-serif lh-copy fr pr5 pl5 mb4 pa0-l ma0-l gray" id="">Perhaps a caption for the banner image could go here.</span>
+         Everyday objects more or less obey the laws of physics discovered by Isaac Newton and other luminaries of the Enlightenment. You can find your car keys because they stay right where you put them an hour ago instead of suddenly appearing in the refrigerator. You can decide how to dress because your clothes don’t change color in the closet. A well-pitched baseball always arrives at the catcher’s mitt and not in the parking lot.
+       </p>
+       <!-- <div style="width: 25%;" class="mw5 pl3 ml4 pr5 center mt0 tc fr pb3">
+         <img src="images/Classical_Space.jpg" class="pb2" style="width: 100% ;float: center ; margin-top: -20%  ;"/><p class="w-100 f7 mw6 center sans-serif gray pl2-l lh-copy">Rockets are governed by classical physics.</p>
+       </div> -->
+       <p class="w-50-l w-80 mw7 center mt0">
+         These everyday experiences are the result of classical physics—the laws and equations that were around before quantum mechanics. The world of classical physics is predictable. If you know the initial position and speed of an object, as well as the forces that act on it, you can predict its motion with perfect certainty. That’s how NASA can place a spacecraft at a precise location a billion kilometers away.
+       </p>
+       <div class="w-100 items-center flex-l mt4 pb4-ns">
+         <div class="w-30-l w0"></div>
+         <div class="w-70-l w-100 mr2">
+           <div class="relative w-100-ns mt2 mt0-ns">
+             <div class="w-100 tc">
+               <div  class="w-100 mw5 center tc">
+                   <img src="images/Classical_Space.png" class="" style="width: 100% ;float: center ;"/>
+               </div>
+             </div>
+           </div>
+         </div>
+         <div style="height: 100px;" class="center pa2 pl3-l pb0 pr5-l w-30-l w-100 mt2 mw5">
+           <p class="w-100 f7 mw6 center sans-serif gray pl2-l lh-copy">Rockets are governed by classical physics.</p>
+         </div>
+       </div>
+       <h2 class="w-50-l w-80 mw7 center mt0 f5 pt3 ttu tracked fw6 sans-serif gray">The quantum world</h2>
+       <p class="w-50-l w-80 mw7 center mt0">
+         In the quantum world—at the scale of atoms or smaller—things are utterly different. Not weird or mysterious or incomprehensible. Just way different.
+       </p>
+       <p class="w-50-l w-80 mw7 center mt0">
+         For one thing, properties of quantum objects can’t take on any old value. Someone walking down a ramp can stop at any spot along the way, but many quantum properties are restricted to certain allowed values—more like items placed on a staircase than on a ramp. Something can be on step 2, 3, 4 or whatever. But not step 2.67 or 4.23. It’s the way nature seems to operate at the smallest dimensions.
+       </p>
+       <div class="w-100 items-center flex-l mt4 pb4-ns">
+         <div class="w-30-l w0"></div>
+         <div class="w-70-l w-100 mr2">
+           <div class="relative w-100-ns mt2 mt0-ns">
+             <div class="w-100 tc">
+               <div  class="w-100 mw6 center tc">
+                   <img src="images/Classical_Ramp.png" class="" style="width: 100% ;float: center ;"/>
+               </div>
+             </div>
+           </div>
+         </div>
+         <div style="height: 100px;" class="center pa2 pl3-l pb0 pr5-l w-30-l w-100 mt2 mw5">
+           <p class="w-100 f7 mw6 center sans-serif gray pl2-l lh-copy">A classical ramp versus quantum steps.</p>
+         </div>
+       </div>
+       <!-- <div style="width: 25%;" class="mw5 pl4 ml4 pr5 center mt0 tc fr pb3">
+         <img src="images/Classical_Ramp.jpg" class="pb2" style="width: 100% ;float: center ; margin-top: -50%"/><p class="w-100 f7 mw6 center sans-serif gray pl2-l lh-copy">A sodium vapor lamp.</p>
+       </div> -->
+       <!-- <div class="w-50-l mw6 pl3 pr5 center mt0 tc pb3">
+         <img src="images/Classical_Ramp.jpg" class="" style="width: 100% ;float: center ;"/>
+       </div> -->
+       <p class="w-50-l w-80 mw7 center mt0">
+         Each increment is a “quantum,” from the Latin word for “how much” (plural: quanta). Some quantum effects defy intuition, but others are easier to understand. For example, each element in the periodic table has its own unique luminous fingerprint or spectrum. That’s because each has its own distinct arrangement of electrons with certain specific energies.
+       </p>
+       <!-- <div style="width: 25%;" class="mw5 pl4 ml4 pr5 center mt0 tc fr pb3">
+         <img src="images/Sodium-glow.jpg" class="pb2" style="width: 100% ;float: center ;"/><p class="w-100 f7 mw6 center sans-serif gray pl2-l lh-copy">A sodium vapor lamp.</p>
+       </div> -->
+       <p class="w-50-l w-80 mw7 center mt0">
+         When one electron gains exactly the right amount of energy—no more, no less—it can jump a higher energy level. When it falls back, it sheds that energy as a quantum of light—also known as a photon. The color of the light depends on the energy difference between the two levels, and so is unique to every element. (When electrons change levels, they do so instantaneously in a “quantum leap.”)
+       </p>
+       <div class="w-100 items-center flex-l mt4 pb4-ns">
+         <div class="w-30-l w0"></div>
+         <div class="w-70-l w-100 mr2">
+           <div class="relative w-100-ns mt2 mt0-ns">
+             <div class="w-100 tc">
+               <div  class="w-100 mw5 center tc">
+                   <img src="images/Sodium-glow.jpg" class="" style="width: 100% ;float: center ;"/>
+               </div>
+             </div>
+           </div>
+         </div>
+         <div style="height: 100px;" class="center pa2 pl3-l pb0 pr5-l w-30-l w-100 mt2 mw5">
+           <p class="w-100 f7 mw6 center sans-serif gray pl2-l lh-copy">A sodium vapor lamp. The yellow color is a result of the sodium spectrum in the visible range.</p>
+         </div>
+       </div>
+       <h2 class="w-50-l w-80 mw7 center mt0 f5 pt3 ttu tracked fw6 sans-serif gray">Other properties</h2>
+       <p class="w-50-l w-80 mw7 center mt0">
+         Many more properties, including aspects of magnetism and momentum, are quantized on the subatomic scale. But that does not mean that an object’s properties have fixed values. In fact, isolated quantum objects or systems do not have any particular properties until they are measured, a feature you can learn more about in the entry on quantum measurement. Quantum physics provides a way to calculate the probability of any given measurement outcome, though, even if it doesn’t provide the perfect predictability of classical physics.
+       </p>
+       <p class="w-50-l w-80 mw7 center mt0">
+         Finally, in the quantum world objects can have both particle and wave properties. Although massless photons behave like waves, and can be reflected, refracted, and so forth, they also behave like particles in certain experiments. For example, when a photon of the right frequency strikes some materials, its energy can liberate an electron from its usual cramped position. This interaction, called the photoelectric effect, got Einstein a Nobel prize and serves as the basis for every photovoltaic cell making electricity out of light from the sun.
+       </p>
+       <div class="w-100 items-center flex-l mt4">
+         <div class="w-30-l w0"></div>
+         <div class="w-70-l w-100 mr2">
+           <div class="relative w-100-ns mt2 mt0-ns">
+             <div class="w-100 tc">
+               <div  class="w-100 mw5 center tc">
+                   <img src="images/Classical_PhotonCollison.png" class="pb4" style="width: 100% ;float: center ;"/>
+               </div>
+             </div>
+           </div>
+         </div>
+         <div style="height: 100px;" class="center pa2 pl3-l pb0 pr5-l w-30-l w-100 mt2 mw5">
+           <p class="w-100 f7 mw6 center sans-serif gray pl2-l lh-copy">The photoelectric effect.</p>
+         </div>
+       </div>
+       <p class="w-50-l w-80 mw7 center mt0">
+         The mass and velocity of electrons in their role as particles are utilized in lithography, welding, chemical processing, medicine, and many more applications. But when a beam of electrons passes through a barrier with two parallel slits cut into it and then on to a detector, the electrons behave like waves, forming interference patterns on the detector.
+       </p>
+     </div>
+     <div class="pr4 pl4 z-999 lighter-gray relative w-100 center pt5">
+     <h1 class="f5-l tc tl-l f6 helvetica mt0 mt3-l mb3 pl4 pt3"> <span class="gray">Timeline: </span>Quantum verus Classical<span class="fr normal blue f7 pr4 mr3 selector mt1">Full Timeline › </span></h1>
+     <div class="ml4 mr4 mt5 mb5" id="timeline"></div>
+     <h1 class="f5-l tc tl-l f6 helvetica mt0 mt5-l mb3 pl4 pt3"> <span class="gray">Related Media: </span>Quantum versus Classical<span class="fr normal blue f7 pr4 selector mt1">Media Gallery › </span></h1>
+     <div class="flex flex-wrap pr4 pl4">
+        <div class="w-33-l w-100 pa2">
+          <div class="outline h5 pa3"><code>1</code></div>
+        </div>
+        <div class="w-33-l w-100 pa2">
+          <div class="outline h5 pa3"><code>2</code></div>
+        </div>
+        <div class="w-33-l w-100 pa2">
+          <div class="outline h5 pa3"><code>3</code></div>
+        </div>
+        <div class="w-33-l w-100 pa2">
+          <div class="outline h5 pa3"><code>4</code></div>
+        </div>
+        <div class="w-33-l w-100 pa2">
+          <div class="outline h5 pa3"><code>5</code></div>
+        </div>
+        </div>
+     <h1 class="f5-l tc tl-l f6 helvetica mt0 mt5-l mb3 pl4 pt3"> <span class="gray">Related Entries: </span>Quantum versus Classical<span class="fr normal blue f7 pr4 selector mt1">Full Map › </span></h1>
+     <div class="outline light-gray mb2 tc patterned mr4 ml4">
+       <div class="overlay">
+       <img src="images/demograph.svg" class="pl3 pr3 pb2" style="width: 100% ;float: center ;"/>
+     </div>
+     </div>
+     <div class="pr4 pl4 w-100 mt6 bt b--light-gray footer">
+       <div class="flex items-center justify-center mw7 mt4 center h3 mt2">
+         <div class="w-30 mr3-l mb2 tc">
+           <a href="http://nist.gov"><img src="images/nistident_flright_vec_hi-res.png" class="pl3 pt2 pr3 pb2 mt2 center" style="width: 90px; center ;opacity: 0.6 ;"/></a>
+         </div>
+         <div class="w-60 mr3-l mb2 tc">
+           <h1 class="f5-l f6 w-100 mb0 pt3">Quantum Atlas</h1>
+           <p class="f7 gray lh-copy center mt0"> Something here about something.</p>
+         </div>
+         <div class="w-30 mr3-l mb2 pa4 tc">
+           <a href="http://jqi.umd.edu"><img src="images/jqi_logo_footer.jpg" class="pl3 pr3 pb2 pt2 mw3 logo center" style="float: center ;opacity: 0.8 ;"/></a>
+         </div>
+       </div>
+     </div>
+    </div>
+    </div>
+   </div>
+  </div>
+   <script>
+   function toggle(id) {
+    var div = document.getElementById(id);
+    div.style.opacity = div.style.opacity == 0 ? 1 : 0;
+    div.style.display = div.style.display == "block" ? "none" : "block";
+  }
+  </script>
+  <script>iFrameResize({log:false})</script>
+  <script>
+  milestones('#timeline')
+    .mapping({
+      'timestamp': 'year',
+      'text': 'title'
+    })
+    .parseTime('%Y')
+    .aggregateBy('year')
+    .render([
+      { year: 1923, title: 'Something happened in this year' },
+      { year: 1947, title: 'Another thing happened here' },
+      { year: 1972, title: 'Each of these will link to the full atlas timeline' },
+      { year: 2011, title: 'That lives on its own page' }
+    ]);
+  </script>
+ </body>

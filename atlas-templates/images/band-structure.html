@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<!-- saved from url=(0041)http://jointquantum.institute/weyl/bands/ -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <title>Band structure</title>
+    <link rel="stylesheet" href="../images/weyl_files/style.css">
+  <style></style><style id="style-1-cropbar-clipper">/* Copyright 2014 Evernote Corporation. All rights reserved. */
+.en-markup-crop-options {
+    top: 18px !important;
+    left: 50% !important;
+    margin-left: -100px !important;
+    width: 200px !important;
+    border: 2px rgba(255,255,255,.38) solid !important;
+    border-radius: 4px !important;
+}
+
+.en-markup-crop-options div div:first-of-type {
+    margin-left: 0px !important;
+}
+</style></head>
+
+  <body>
+
+    <!---------------------->
+    <!-- Animated content -->
+    <!---------------------->
+
+     <!-- Animation container-->
+     <div class="gsap-container">
+       <img class="gsap-image" src="../images/weyl_files/mask-01.svg" id="band_mask" style="transform: matrix(1, 0, 0, 1, 0, -142);">
+       <img class="gsap-image" src="../images/weyl_files/bluepath-01.svg" id="bluepath" style="transform: matrix(1, 0, 0, 1, 0, 0);">
+       <img class="gsap-image" src="../images/weyl_files/greenpath.svg" id="greenpath">
+       <img class="gsap-image" src="../images/weyl_files/graph_back-01.svg" id="graph_back">
+       <img class="gsap-image label" src="../images/weyl_files/labels.svg" id="labels">
+       <img class="gsap-image label" src="../images/weyl_files/gap_label.svg" id="gap_label" style="transform: matrix(1, 0, 0, 1, 0, 0); opacity: 1;">
+       <img class="gsap-image label" src="../images/weyl_files/band_label.svg" id="band_label" style="transform: matrix(1, 0, 0, 1, 0, 0);">
+       <div class="dragbounds"></div>
+       <div class="linebounds"></div>
+       <img class="gsap-image behind" src="../images/weyl_files/greenpath_interior.svg" id="green_behind">
+       <img class="gsap-image behind" src="../images/weyl_files/bluepath_interior.svg" id="blue_behind" style="transform: matrix(1, 0, 0, 1, 0, 0);">
+       <img class="gsap-image1 relative behind" src="../images/weyl_files/graph-01.svg" id="graph">
+    </div>
+
+    <div class="caption">
+      <div class="button-container">
+        <button class="btn selected" id="insulator">Insulator</button>
+        <button class="btn disabled" id="conductor">Conductor</button>
+        <button class="btn disabled" id="semiconductor">Semiconductor</button>
+        <button class="btn disabled" id="semimetal">Semimetal</button>
+      </div>
+      <div class="caption-paragraph">
+        <p class="caption-text first" id="insulator-label">In an <b>insulator</b>, electrons fill up a band right to the brim. There is a gap—a region of energy that no electron in the material can inhabit—to the next band. Unless electrons receive a big kick, they cannot reach the higher band. This keeps them from conducting current, since a voltage applied across the material will not change electron behavior.</p>
+        <p class="caption-text" id="conductor-label">In a <b>conductor</b>, electrons partially fill an energy band. This means there are slightly higher energies, available just out of reach, that electrons can jump to if they get a small kick. The voltage from a battery can provide that kick, causing the material to conduct.</p>
+        <p class="caption-text" id="semiconductor-label">A <b>semiconductor</b> is a lot like an insulator, but the gap between bands is much smaller. It’s possible for a voltage to bridge this gap, promoting some electrons to the higher band and causing a current to flow. But take that impetus away and the material acts like an insulator again. This switching behavior is what drives the digital transistors that form the backbone of our electronic gadgets.</p>
+        <p class="caption-text position" id="semimetal-label"><b>Semimetals</b> are unique in that they have bands that actually touch. Although electrons still only fill the lower band, mere thermal energy, from the temperature of the semimetal’s surroundings, can give electrons the miniscule kick they need to reach the higher band. For Weyl semimetals, the bands around the touching point have a certain shape that makes excitations of electrons behave like Weyl fermions.
+      </p></div>
+    </div>
+
+    <!------------->
+    <!-- Scripts -->
+    <!------------->
+
+    <!-- CDN links for TweenMAX and Jquery -->
+    <script src="../images/weyl_files/TweenMax.min.js"></script>
+    <script src="../images/weyl_files/Draggable.min.js"></script>
+    <script src="../images/weyl_files/jquery.min.js"></script>
+
+    <!-- Animation script -->
+    <script src="../images/weyl_files/script.js"></script>
+
+    <!-- Used for resizing on the host page -->
+    <script src="../images/iframeResizer.contentWindow.js"></script>
+
+
+
+</body><div></div></html>

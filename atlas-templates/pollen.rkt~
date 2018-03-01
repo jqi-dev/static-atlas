@@ -1,0 +1,42 @@
+#lang racket
+
+(require pollen/decode pollen/misc/tutorial txexpr)
+
+#| provide all defined functions to other files |#
+(provide (all-defined-out))
+
+#| utilities for creating paragraphs based on /n characters and inserting dashes and quotes |#
+(define (root . elements)
+     (txexpr 'root empty (decode-elements elements
+                                          #:txexpr-elements-proc decode-paragraphs
+                                          #:string-proc (compose1 smart-quotes smart-dashes))))
+
+#| tag definitions |#
+(define section-tag 'h2)
+(define section-class "f4 pt4 ttu tracked fw6 sans-serif gray")
+(define (section . text) 
+  `(,section-tag ((class ,section-class)) ,@text))
+
+(define (test-div . content)
+  `(div ((id "host"))))
+
+(define inline-image-tag 'div)
+(define inline-image-class "pa3 center mw6-ns")
+(define (inline-image src #:width [width "100%"] #:position [position "center"])
+  `(,inline-image-tag ((class ,inline-image-class)
+                       (style ,(string-append
+                                (format "width: ~a ;" width)
+                                (format "float: ~a ;" position))))
+                      (img ((src ,src)))))
+
+(define sidebar-image-tag 'div)
+(define sidebar-image-class "right-0 fl w-100 w-40-ns absolute-ns pa3 sans-serif f6 pr5-ns")
+(define sidebar-image-id "sidebar-container")
+(define (sidebar-image . src) 
+  (define div-name (symbol->string (gensym)))
+  `(@
+    `(,sidebar-image-tag ((class ,sidebar-image-class)
+                            (id ,sidebar-image-id))
+                            ,(string->symbol (file->string src)))
+    `(script ,(format "javascript:attach_component('~a') sidebar-image-id"))))
+

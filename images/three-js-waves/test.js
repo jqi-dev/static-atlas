@@ -33,10 +33,24 @@ function init() {
   canvasbox = renderer.domElement;
   $('#container').append( renderer.domElement );
 
+  let waveArray = new Float32Array(48); // max 16 waves, each with (x position, y position, time)
+  let numWaves = 0; // number of active waves
+
+  function addWave(array) {
+    waveArray.set(array, numWaves % 16 * 3); // mod 16 so if array is full latest wave overwrites oldest
+    numWaves += 1;
+  }
+
+  addWave([1, 2, 3]);
+  addWave([1, 2, 3]);
+  console.log(waveArray)
+
   uniforms = THREE.UniformsUtils.merge([
+          { waves: new THREE.Uniform( waveArray )},
+          { activeWaves: { numWaves } },
           THREE.UniformsLib['lights'],
           { ambient: { type: 'c', value: new THREE.Color(0xff00ff) } },
-          { color:     { value: new THREE.Color( 0x00ACFC ) } }
+          { color: { value: new THREE.Color( 0x00ACFC ) } }
       ]);
 
   var planeShader = new THREE.ShaderMaterial({
@@ -57,6 +71,10 @@ function init() {
   displacement = new Float32Array( geometry.attributes.position.count );
 
   geometry.addAttribute( 'displacement', new THREE.BufferAttribute( displacement, 1 ) );
+
+  // geometry.addAttribute( 'waves', new THREE.BufferAttribute( 20, 3 ) ); // max 20 waves, each with (x position, y position, time)
+  //
+  // geometry.addAttribute( 'activeWaves', new THREE.BufferAttribute( 1, 1 ) ); // number of active waves
 
   plane = new THREE.Mesh(
       geometry,
@@ -125,17 +143,12 @@ function animateWave() {
   for ( var i = 0; i < displacement.length; i ++ ) {
         let vx = plane.geometry.attributes.position.getX(i);
         let vy = plane.geometry.attributes.position.getY(i);
-				// displacement[ i ] = A * circularWave(posx1, posy1, vx, vy, time, freq1) +
-        //                     B * circularWave(posx2, posy2, vx, vy, time, freq2)
         let displacement_array = [];
         CircleArray.forEach(function(circle) {
           displacement_array.push(circle.distance(vx, vy))
         });
         displacement[i] = displacement_array.reduce((a, b) => a + b, 0);
 			}
-
-  // circle.material.opacity = 0.5 + Math.sin(freq1/400 - freq1 * time)/2;
-  // circle2.material.opacity = 0.5 + Math.sin(freq2/400 - freq2 * time)/2;
 }
 
 function circularWave(x, y, vx, vy, t, f) {
@@ -147,7 +160,6 @@ function circularWave(x, y, vx, vy, t, f) {
     return 1
   }
   else { return 0 }
-  // return Math.sin( f/400 * position - f * t);
 }
 
 class ExpandingCircle {
@@ -185,7 +197,7 @@ function render() {
 
 function onWindowClick (x, y) {
   $('#message').css('opacity', '0.0');
-  let sf = $('#container').outerWidth()/156 // scale factor for mouse location 156
+  let sf = $('#container').outerWidth()/156 // scale factor for mouse location
   new ExpandingCircle(x/sf, -y/sf).addTo(CircleArray, circle_lifetime)
 }
 

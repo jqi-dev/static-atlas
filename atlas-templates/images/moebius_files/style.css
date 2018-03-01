@@ -1,0 +1,25 @@
+body {
+  font-family: sans-serif;
+  font-size:15px;
+  color: #333333;
+}
+
+.container {
+  width: 90%;
+  max-width: 640px;
+  position: relative;
+  margin: 0 auto;
+  padding-bottom: 1px;
+  font-style: italic;
+}
+
+img {
+  width: 100%;
+}
+
+.caption-text {
+  max-width: 550px;
+  position: relative;
+  margin: 0 auto;
+  margin-top: 10px;
+}
