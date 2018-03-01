@@ -10,6 +10,8 @@ var fov = 30,
 var A, B;
 var canvasbox;
 var circle_lifetime = 10000;
+var waveArray = [];
+var numWaves = 0;
 
 $(function() {
     init();
@@ -17,6 +19,30 @@ $(function() {
     let top =  $('canvas').offset().top
     document.body.style.height = width/3 + top + 5;
 });
+
+function addWave(array) {
+  waveArray.set(array, numWaves % 16 * 4); // mod 16 so if array is full latest wave overwrites oldest
+  numWaves += 1;
+}
+
+function removeWave(index) {
+  waveArray[index-2] = 0.0;
+  waveArray[index-1] = 0.0;
+  waveArray[index+1] = 0.0;
+  numWaves -= 1;
+}
+
+function decTime() {
+  for (i = 0; i < numWaves; i=i+1) {
+      let n = (i * 4) + 2;
+      if (waveArray[n] != 0) {
+        waveArray[n] -= 0.4;
+      }
+      else {
+        removeWave(n)
+      }
+    }
+}
 
 function init() {
 
@@ -33,21 +59,12 @@ function init() {
   canvasbox = renderer.domElement;
   $('#container').append( renderer.domElement );
 
-  let waveArray = new Float32Array(48); // max 16 waves, each with (x position, y position, time)
-  let numWaves = 0; // number of active waves
-
-  function addWave(array) {
-    waveArray.set(array, numWaves % 16 * 3); // mod 16 so if array is full latest wave overwrites oldest
-    numWaves += 1;
-  }
-
-  addWave([1, 2, 3]);
-  addWave([1, 2, 3]);
-  console.log(waveArray)
+  waveArray = new Float32Array(64); // max 16 waves, each with (x position, y position, time, amplitude)
+  numWaves = 0; // number of active waves
 
   uniforms = THREE.UniformsUtils.merge([
-          { waves: new THREE.Uniform( waveArray )},
-          { activeWaves: { numWaves } },
+          { activeWaves: {type: "i", value: 1} },
+          { waves: {type: "fv", value: waveArray} },
           THREE.UniformsLib['lights'],
           { ambient: { type: 'c', value: new THREE.Color(0xff00ff) } },
           { color: { value: new THREE.Color( 0x00ACFC ) } }
@@ -72,33 +89,11 @@ function init() {
 
   geometry.addAttribute( 'displacement', new THREE.BufferAttribute( displacement, 1 ) );
 
-  // geometry.addAttribute( 'waves', new THREE.BufferAttribute( 20, 3 ) ); // max 20 waves, each with (x position, y position, time)
-  //
-  // geometry.addAttribute( 'activeWaves', new THREE.BufferAttribute( 1, 1 ) ); // number of active waves
-
   plane = new THREE.Mesh(
       geometry,
       planeShader
   );
   scene.add( plane );
-
-  // var circle_geometry = new THREE.CircleBufferGeometry( 1, 32 );
-  // var circle_material = new THREE.MeshBasicMaterial( { color: 0xffff00 } );
-  // var circle_material_2 = new THREE.MeshBasicMaterial( { color: 0xffff00 } );
-  //
-  // circle = new THREE.Mesh( circle_geometry, circle_material );
-  // circle2 = new THREE.Mesh( circle_geometry, circle_material_2 );
-  //
-  // scene.add( circle );
-  // scene.add( circle2 );
-  //
-  // circle.position.set(10,10,1)
-  // circle2.position.set(-10,-10,1)
-  //
-  // circle.material.transparent = true;
-  // circle2.material.transparent = true;
-
-  // var dragControls = new THREE.DragControls([circle, circle2], camera, renderer.domElement);
 
   $(window).on( 'resize', onWindowResize );
   $(renderer.domElement).click(function (e) { //Offset mouse Position
@@ -112,84 +107,58 @@ function init() {
 frame = 0;
 
 function animate() {
-    animateWave();
+    // animateWave();
     render();
     requestAnimationFrame( animate );
+    decTime();
 }
 
-// var time = 0;
-var CircleArray = []
-
-function animateWave() {
-
-  // var $radio = $('input[name=wave]:checked');
-  // var updateDay = $radio.val();
-  // var id = $radio.attr('id');
-  //
-  // A = parseInt(id[0]);
-  // B = parseInt(id[1]);
-  //
-  // var freq1 = $("#freq1").val();
-  // var posx1 = circle.position.x;
-  // var posy1 = circle.position.y;
-  // var freq2 = $("#freq2").val();
-  // var posx2 = circle2.position.x;
-  // var posy2 = circle2.position.y;
-  //
-  // time += .05;
-
-  plane.geometry.attributes.displacement.needsUpdate = true;
-
-  for ( var i = 0; i < displacement.length; i ++ ) {
-        let vx = plane.geometry.attributes.position.getX(i);
-        let vy = plane.geometry.attributes.position.getY(i);
-        let displacement_array = [];
-        CircleArray.forEach(function(circle) {
-          displacement_array.push(circle.distance(vx, vy))
-        });
-        displacement[i] = displacement_array.reduce((a, b) => a + b, 0);
-			}
-}
-
-function circularWave(x, y, vx, vy, t, f) {
-  let dx = vx - x;
-  let dy = vy - y;
-  let position = Math.hypot(dx, dy)
-  let distance = 4 * t
-  if (position < distance) {
-    return 1
-  }
-  else { return 0 }
-}
-
-class ExpandingCircle {
-  constructor(x, y) {
-    this.x = x;
-    this.y = y;
-    this.time = 0;
-    this.speed = 0.00004; // 4
-  }
-
-  distance(vx, vy, f) {
-    this.time += this.speed;
-    let dx = vx - this.x;
-    let dy = vy - this.y;
-    let width = 40;
-    let separation = Math.hypot(dx, dy);
-    let edge = this.time;
-    if ((separation < edge) && ((edge - separation) < width)) {
-      return (1-(edge - separation)/width) * Math.sin(separation - (edge))
-    }
-    else { return 0 }
-  }
-
-  addTo(arr, time) {
-   arr.push(this); //adding current instance to array
-   setTimeout(function() { //setting timeout to remove it later
-       arr.shift();
-   }, time)
- }
-}
+// // var time = 0;
+// var CircleArray = []
+//
+// function animateWave() {
+//
+//   plane.geometry.attributes.displacement.needsUpdate = true;
+//
+//   for ( var i = 0; i < displacement.length; i ++ ) {
+//         let vx = plane.geometry.attributes.position.getX(i);
+//         let vy = plane.geometry.attributes.position.getY(i);
+//         let displacement_array = [];
+//         CircleArray.forEach(function(circle) {
+//           displacement_array.push(circle.distance(vx, vy))
+//         });
+//         displacement[i] = displacement_array.reduce((a, b) => a + b, 0);
+// 			}
+// }
+//
+// class ExpandingCircle {
+//   constructor(x, y) {
+//     this.x = x;
+//     this.y = y;
+//     this.time = 0;
+//     this.speed = 0.00004; // 4
+//   }
+//
+//   distance(vx, vy, f) {
+//     this.time += this.speed;
+//     let dx = vx - this.x;
+//     let dy = vy - this.y;
+//     let width = 40;
+//     let separation = Math.hypot(dx, dy);
+//     let edge = this.time;
+//     if ((separation < edge) && ((edge - separation) < width)) {
+//       return (1-(edge - separation)/width) * Math.sin(separation - (edge))
+//     }
+//     else { return 0 }
+//   }
+//
+//   addTo(arr, time) {
+//    arr.push(this); //adding current instance to array
+//    setTimeout(function() { //setting timeout to remove it later
+//        arr.shift();
+//    }, time)
+//  }
+// }
 
 function render() {
   renderer.render( scene, camera );
@@ -198,7 +167,8 @@ function render() {
 function onWindowClick (x, y) {
   $('#message').css('opacity', '0.0');
   let sf = $('#container').outerWidth()/156 // scale factor for mouse location
-  new ExpandingCircle(x/sf, -y/sf).addTo(CircleArray, circle_lifetime)
+  addWave([x/sf, -y/sf, 300, 1]);
+  // new ExpandingCircle(x/sf, -y/sf).addTo(CircleArray, circle_lifetime)
 }
 
 function onWindowResize() {
