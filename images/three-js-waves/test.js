@@ -1,4 +1,4 @@
-var scene, camera, renderer;
+var scene, camera, renderer, stats;
 var plane, displacement, uniforms, geometry, circle, circle2;
 var fov = 30,
     isUserInteracting = false,
@@ -12,6 +12,8 @@ var canvasbox;
 var circle_lifetime = 10000;
 var waveArray = [];
 var numWaves = 0;
+var animTime = new Date;
+var fpsCounter = 0;
 
 $(function() {
     init();
@@ -19,6 +21,21 @@ $(function() {
     let top =  $('canvas').offset().top
     document.body.style.height = width/3 + top + 5;
 });
+
+function getFPS() {
+  let newTime = new Date; // get current time
+  let fps = 1000 / (newTime - animTime); // conversion from millisecond to fps
+  animTime = newTime;
+  return fps;
+}
+
+function goodFPS(fps) {
+  fpsCounter += 1;
+  if (fpsCounter > 1) { // allow animation to cycle once (for loading) before determining fps
+    return (fps > 10); // 10 fps
+  }
+  else return true;
+}
 
 function addWave(array) {
   waveArray.set(array, numWaves % 16 * 4); // mod 16 so if array is full latest wave overwrites oldest
@@ -109,8 +126,9 @@ frame = 0;
 function animate() {
     // animateWave();
     render();
-    requestAnimationFrame( animate );
     decTime();
+    if (goodFPS(getFPS())) { requestAnimationFrame( animate ); }
+    else $('#container').remove();
 }
 
 // // var time = 0;
