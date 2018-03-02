@@ -28,7 +28,6 @@ window.onload = function() {
   tl.delay(2);
   tl.to('#circle', 6, {scaleX: 0.25, scaleY:2});
   tl.to(randomFactor, 6, {value:0,
-    onStart : function(){ tick = 0 },
     onUpdate : function(){
       odometerTween();
       arrowTween();
