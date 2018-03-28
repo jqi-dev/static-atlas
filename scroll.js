@@ -1,9 +1,12 @@
 var didScroll;
 var lastScrollTop = 0;
 var delta = 5;
+var minWidth = 1000;
 
 $(window).scroll(function(event){
-    didScroll = true;
+    if ($(window).outerWidth() > minWidth) { // disable scroll hide if window < minimum width
+      didScroll = true;
+    }
 });
 
 setInterval(function() {
@@ -28,9 +31,7 @@ function hasScrolled() {
         $('header').css("top", -navbarHeight)
     } else {
         // Scroll Up
-        // if(st + $(window).height() < $(document).height()) {
-            $('header').css("top", 0)
-        // }
+        $('header').css("top", 0)
     }
 
     lastScrollTop = st;

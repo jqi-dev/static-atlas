@@ -46,8 +46,6 @@
             (scrolling "no")
             (frameborder "0"))))
 
-
-
 (define (caption . text)
   `(div ((class "w-100 mw7"))
     (div ((class "w-100 mw5 gray left mb4 mb0-ns pr4 pl4")) ,@text)))

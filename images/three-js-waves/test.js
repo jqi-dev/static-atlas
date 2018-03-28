@@ -100,7 +100,7 @@ function init() {
 
   planeShader.transparent = true;
 
-  geometry = new THREE.PlaneBufferGeometry( 156, 52, 156, 52); // 156, 52
+  geometry = new THREE.PlaneBufferGeometry(156, 52, 156, 52); // 156, 52
 
   displacement = new Float32Array( geometry.attributes.position.count );
 
@@ -127,8 +127,9 @@ function animate() {
     // animateWave();
     render();
     decTime();
-    if (goodFPS(getFPS())) { requestAnimationFrame( animate ); }
-    else $('#container').remove();
+    // if (goodFPS(getFPS())) { requestAnimationFrame( animate ); }
+    // else $('#container').remove();
+    requestAnimationFrame( animate );
 }
 
 // // var time = 0;
@@ -138,7 +139,7 @@ function animate() {
 //
 //   plane.geometry.attributes.displacement.needsUpdate = true;
 //
-//   for ( var i = 0; i < displacement.length; i ++ ) {
+//   for ( var i = 0; i < displ acement.length; i ++ ) {
 //         let vx = plane.geometry.attributes.position.getX(i);
 //         let vy = plane.geometry.attributes.position.getY(i);
 //         let displacement_array = [];

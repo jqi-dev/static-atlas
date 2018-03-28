@@ -2294,6 +2294,7 @@ p {
  .w3-ns { width: 4rem; }
  .w4-ns { width: 8rem; }
  .w5-ns { width: 16rem; }
+ .w-0-ns  { width: 0%;  }
  .w-10-ns { width: 10%; }
  .w-20-ns { width: 20%; }
  .w-25-ns { width: 25%; }
