@@ -1,0 +1,85 @@
+<html>
+  <head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.4/TweenMax.min.js"></script>
+    <link rel="stylesheet" type="text/css" media="all" href="../../tachyons.css"/>
+    <style>
+    #label {
+      top: 80%;
+      background-color:rgba(255, 255, 255, 0.25);
+    }
+    #buttons {
+      z-index: 4;
+      top: 90%;
+    }
+    </style>
+  </head>
+  <body>
+    <div class="w-100 mw7 center mt4 sans-serif dark-gray overflow-hidden relative" id="container">
+      <div class="center w-100 tc z-3 f1 v-top absolute pa2 blue outline" id="label">10x</div>
+      <div class="w-100 mt1 absolute" id="buttons">
+        <div class="w-100 mw4 center">
+          <a class="f1 link dim ph3 code pv2 mb2 dib w-50 fr tc outline" href="#0" onclick="increment(1)">+</a>
+          <a class="f1 link dim ph3 code pv2 mb2 dib w-50 tc outline" href="#0" onclick="increment(-1)">-</a>
+      </div>
+      </div>
+      <img src="hair.png" class="absolute mw7 z-1" id="hair">
+      <img src="bacteria.png" class="absolute mw7 z-1" id="bacteria">
+      <img src="atom.png" class="absolute mw7 z-1" id="atom">
+      <img src="glass.png" class="absolute mw7 z-2" id="glass">
+      <img src="glass.png" class="absolute mw7 z-2" id="glass-hidden">
+      <img src="dog.png" class="relative mw7" id="dog">
+    </div>
+  </body>
+
+  <script>
+
+  TweenMax.set("#bacteria", {opacity: 0});
+  TweenMax.set("#atom", {opacity: 0});
+  TweenMax.set("#glass-hidden", {x: -getWidth()})
+
+  let state = 1;
+  let disabled = {on: false};
+  let tl = new TimelineMax();
+
+  const magnification = ["1x", "10x", "100x", "1,000,000x"]
+
+  function getWidth() {
+    return document.getElementById("container").offsetWidth
+  }
+
+  function increment(val) {
+    if (disabled.on) { return; } // break if click is disabled
+    state += val;
+    if (state<0) {
+      state = 0;
+      return;
+    }
+    if (state>3) {
+      state = 3;
+      return;
+    }
+    swapGlass(val);
+    tweenState(state);
+    modifyLabel(state)
+  }
+
+  function swapGlass(val) {
+    tl.set(disabled, {on: true}); // disable further clicks
+    tl.fromTo("#glass", 0.25, {x: 0}, {x: getWidth() * val, delay: 0.5});
+    tl.fromTo("#glass-hidden", 0.25, {x: -getWidth() * val}, {x: 0});
+    tl.set(disabled, {on: false}); // re-enable clicks
+  }
+
+  function tweenState(state) {
+    tweenArray = [0,0,0,0] // reset array
+    tweenArray[state] = 1;
+    TweenMax.to("#hair", 1, {opacity: tweenArray[1], delay:tweenArray[1]})
+    TweenMax.to("#bacteria", 1, {opacity: tweenArray[2], delay:tweenArray[2]})
+    TweenMax.to("#atom", 1, {opacity: tweenArray[3], delay:tweenArray[3]})
+  }
+
+  function modifyLabel(state) {
+    document.getElementById("label").innerHTML = magnification[state];
+  }
+
+  </script>
