@@ -59,23 +59,24 @@
       return;
     }
     swapGlass(val);
-    tweenState(state);
+    tweenState(state, val);
     modifyLabel(state)
   }
 
   function swapGlass(val) {
     tl.set(disabled, {on: true}); // disable further clicks
-    tl.fromTo("#glass", 0.25, {x: 0}, {x: getWidth() * val, delay: 0.5});
-    tl.fromTo("#glass-hidden", 0.25, {x: -getWidth() * val}, {x: 0});
+    tl.fromTo(["#glass", "#hair", "#bacteria", "#atom"], 0.5, {x: 0}, {x: getWidth() * val});
+    tl.set(["#hair", "#bacteria", "#atom"], {x: 0});
+    tl.fromTo(["#glass-hidden"] , 0.5, {x: -getWidth() * val}, {x: 0});
     tl.set(disabled, {on: false}); // re-enable clicks
   }
 
-  function tweenState(state) {
+  function tweenState(state, val) {
     tweenArray = [0,0,0,0] // reset array
     tweenArray[state] = 1;
-    TweenMax.to("#hair", 1, {opacity: tweenArray[1], delay:tweenArray[1]})
-    TweenMax.to("#bacteria", 1, {opacity: tweenArray[2], delay:tweenArray[2]})
-    TweenMax.to("#atom", 1, {opacity: tweenArray[3], delay:tweenArray[3]})
+    TweenMax.to("#hair", 0.5, {opacity: tweenArray[1], delay:tweenArray[1]})
+    TweenMax.to("#bacteria", 0.5, {opacity: tweenArray[2], delay:tweenArray[2]})
+    TweenMax.to("#atom", 0.5, {opacity: tweenArray[3], delay:tweenArray[3]})
   }
 
   function modifyLabel(state) {
