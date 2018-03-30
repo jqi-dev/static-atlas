@@ -42,20 +42,21 @@
   let tl = new TimelineMax();
 
   const magnification = ["1x", "100,000x", "1,000,000x", "10,000,000,000x"]
+  const images = ["#hair", "#bacteria", "#atom"]
 
   function getWidth() {
-    return document.getElementById("container").offsetWidth
+    return document.getElementById("container").offsetWidth;
   }
 
   function increment(val) {
     if (disabled.on) { return; } // break if click is disabled
     state += val;
-    if (state<0) {
+    if (state < 0) {
       state = 0;
       return;
     }
-    if (state>3) {
-      state = 3;
+    if (state>images.length) {
+      state = images.length;
       return;
     }
     swapGlass(val);
@@ -63,20 +64,25 @@
     modifyLabel(state)
   }
 
+  //
+  // There is definitely a better way to do this - right now just moving everything,
+  // even the invisible images.
+  //
+
   function swapGlass(val) {
     tl.set(disabled, {on: true}); // disable further clicks
-    tl.fromTo(["#glass", "#hair", "#bacteria", "#atom"], 0.5, {x: 0}, {x: getWidth() * val});
-    tl.set(["#hair", "#bacteria", "#atom"], {x: 0});
-    tl.fromTo(["#glass-hidden"] , 0.5, {x: -getWidth() * val}, {x: 0});
+    tl.fromTo(images.concat("#glass"), 0.5, {x: 0}, {x: getWidth() * val}); // move everything to right or left
+    tl.set(images, {x: 0}); // reset position of images
+    tl.fromTo(["#glass-hidden"] , 0.5, {x: -getWidth() * val}, {x: 0}); // shift hidden magnifying glass over
     tl.set(disabled, {on: false}); // re-enable clicks
   }
 
   function tweenState(state, val) {
     tweenArray = [0,0,0,0] // reset array
     tweenArray[state] = 1;
-    TweenMax.to("#hair", 0.5, {opacity: tweenArray[1], delay:tweenArray[1]})
-    TweenMax.to("#bacteria", 0.5, {opacity: tweenArray[2], delay:tweenArray[2]})
-    TweenMax.to("#atom", 0.5, {opacity: tweenArray[3], delay:tweenArray[3]})
+    for (var i = 0; i < images.length; i++) {
+      TweenMax.to(images[i], 0.5, {opacity: tweenArray[i + 1], delay:tweenArray[i + 1]})
+    }
   }
 
   function modifyLabel(state) {
