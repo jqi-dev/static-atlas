@@ -1,1 +1,0 @@
-#hasheq((doc . "subtitle { display: none; }\n\narticle { margin-top: -2rem; }\n\nheader {\n  transition: top 0.2s ease-in-out;\n}\n") (metas . #hasheq((here-path . "/Users/sean/Desktop/atlas-templates/styles.css.pp"))))
