@@ -1,0 +1,146 @@
+<html>
+  <head>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+    <title>Spin</title>
+      
+    <!-- Styles -->
+    <link rel="stylesheet" type="text/css" href="../resources/css/tachyons.css">
+    <link rel="stylesheet" type="text/css" href="../resources/css/additions.css"/>
+    <link rel="stylesheet" href="../resources/node_modules/lightbox2/dist/css/lightbox.css">
+    
+    <!-- Scripts -->
+    <script type='text/javascript' src='../resources/js/jquery-3.2.1.min.js'></script>
+    <script type='text/javascript' src="../resources/js/iframeResizer.js"></script>
+    <script type='text/javascript' src="../resources/node_modules/lightbox2/dist/js/lightbox.js"></script>
+    
+    <!-- Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora">
+      
+  </head>
+  <body class="cf lora f5-ns f6 dark-gray bg-lighter-gray">
+      
+    <!-- Header -->
+    <header class="w-100 center bg-lighter-gray fixed z-max">
+      <div class="w-100 cf mw7 center bg-lighter-gray pb1 pt2 bb b--light-gray">
+        
+        <!-- Site title and logo -->
+        <div class="w-30 fl mt1 pl4">
+          <h1 class="f5-l f5 tl pt3 pb3 gray ma0 dn db-l">Quantum Atlas</h1>
+          <h1 class="f5-l f5 tc pt3 pb3 gray ma0 db dn-l">QA</h1>
+        </div>
+        
+        <!-- Searchbar -->
+        <div class="w-50 fr pr4">
+          <form class="mt2 mb2 black-80 dib w-90 w-100-l flex fl">
+            <input id="name" class="input-reset shadow-inner gray f6 ba b--black-20 bg-lighter-gray pa2 db w-90" type="text" placeholder="Search">
+            <button class="w-10 bg-lighter-gray b--black-20" style="box-shadow: none; background-color: rgba(240, 240, 240, 0.8);"><img src="../resources/icons/search.svg" style="center"></button>
+          </form>
+        </div>
+        
+      </div>
+    </header>
+    
+    <!-- Entry title box -->
+    <div class="w-100 mw7 cf center pt5 mt4 pl4">
+      <span class="blue pointer f6 sans-serif">Atlas Term <span class="f7 pb2 blue relative" style=""> ›</span></span>
+      <h1 class="f2-l tl-l f4 ma0 mt1 helvetica">Spin</h1>
+      <h3 class="f6 mt2 mb4 gray i tl-l">Something something subtitle placeholder here</h3>
+    </div>
+    
+    <!-- Entry body --> 
+    <div class="w-100 mw7 cf center pa4 pt0">
+      <div class="w-90 w-100-l center fr-l pr3 pl3 pa0-l mt0">
+        
+        <!-- Banner image and caption -->
+        <div class="mb4 mt0 tc">
+          <div class="relative w-100-l mt0-l">
+            <div  class="w-100 tc">
+              <div class="ba b--moon-gray mb3 center relative tc"><img src="../resources/images/banners/ronald-smeets-198580.jpg"></div>
+            </div>
+          </div>
+        </div>
+        <div style="height: 100px;" class="w-40-l w-100 fr pl2 pr2 pl3-l pr0-l pt2">
+          <p class="w-90-l w-100 mw7 center pl4 f7 fr-l sans-serif gray lh-copy mt1 br bl bb b--moon-gray bg-light-gray caption">A caption for the image could go here.</p>
+        </div>
+        
+        <p class="w-60-l w-100 mw7 mw9-ns center ml0-ns mr0-ns mt2 pr4">
+          <em>Spoiler alert:</em> The quintessential quantum property called “spin” has almost nothing to do with an object like the Earth spinning around its axis. Nonetheless, spin is very real, and has profound effects on the world around us. It makes magnets magnetic, determines the layout of the periodic table, and makes MRI scans possible, to name a few.
+        </p>
+        
+         <!-- Inline image with side caption -->
+         <div class="w-100 items-center flex-l mt4 pb4-l">
+           <div class="w-60-l w-100 mw7 mw9-ns center ml0-ns mr0-ns pr4 pt2">
+             <div class="relative w-100-ns mt2 mt0-ns mw6 mw9-l center">
+                 <div class="w-100 center tc">
+                     <img src="../resources/images/Earth_axis.png" class="pl3 pr3 pb2 mw6" style="width: 80% ;float: center ;"/>
+                 </div>
+               </div>
+           </div>
+           <div class="w-40-l w-100">
+             <p class="w-90 pl4-l f7 fr-l center sans-serif gray lh-copy mw5 mw9-l">Quantum “spin” is not like the Earth spinning around its axis.</p>
+           </div>
+         </div>
+        
+        <p class="w-60-l w-100 mw7 mw9-ns center ml0-ns mr0-ns mt2 pr4">
+          The term derives from an early, reasonable, and dead wrong explanation of experiments that showed electrons (and their associated atoms) seemed to behave like miniature magnets. In the classical world, an electrically charged object spinning around an axis produces north and south magnetic poles. So in the 1920s, scientists proposed that the negatively charged electron might be doing the same.
+        </p>
+        
+         <!-- Inline image with side caption -->
+         <div class="w-100 items-center flex-l mt4 pb4-l">
+           <div class="w-60-l w-100 mw7 mw9-ns center ml0-ns mr0-ns pr4 pt2">
+             <div class="relative w-100-ns mt2 mt0-ns mw6 mw9-l center">
+                 <div class="w-100 center tc">
+                     <img src="../resources/images/Earth_core.png" class="pl3 pr3 pb2 mw6" style="width: 80% ;float: center ;"/>
+                 </div>
+               </div>
+           </div>
+           <div class="w-40-l w-100">
+             <p class="w-90 pl4-l f7 fr-l center sans-serif gray lh-copy mw5 mw9-l">As the earth's core rotates, it generates the magnetic field, producing the north and south poles.</p>
+           </div>
+         </div>
+        
+        
+        <p class="w-60-l w-100 mw7 mw9-ns center ml0-ns mr0-ns mt2 pr4">
+          <span class="blue selector" onclick="toggle('sidenote-1')">Well, no.<span class="f6 pb2 relative" style="top:-.5rem;">⊕</span></span>
+         <span class="sidenote side f7 sans-serif lh-copy gray fr pr6 pl5 mb3 mt3 pa0-l ma0-l mt1" id="sidenote-1"><span class="f6 pb2 blue relative" style="">⊕ </span>You may see spin described as a kind of angular momentum, the same property that makes it hard to change the direction of a spinning gyroscope or keeps a bicycle going straight when you take your hands off the handlebars. Actually, quantum particles such as the electron have two different kinds of angular momentum. One, which is similar to the gyroscope, derives from electron’s orbit around an atom. That is called orbital angular momentum. Spin, although it involves no rotation, is called <em>intrinsic</em> angular momentum. Both are expressed in the same units used to describe gyroscopes and bike wheels.</span>For one thing, physicists soon determined, the electron would have to be spinning much faster than the speed of light (not allowed in this cosmos) to produce its measured properties. For another, it turns out that the electron has no actual size. It’s a dimensionless “point particle,” with no observed structure down to a billionth of a billionth of a meter. It couldn’t spin if it wanted to. Weirder still, even electrically neutral particles such as neutrons behave like mini magnets.
+        </p>
+        
+        <p class="w-60-l w-100 mw7 mw9-ns center ml0-ns mr0-ns mt2 pr4">
+          But in many ways, quantum particles behave as if they are spinning. Each electron has a magnetic dipole, as if produced by a spinning charge, with only two possible orientations which are analogous to the north and south poles of bar magnets: “spin up” or “spin down.” A collection of atoms in which most of the spins are aligned the same way is magnetic; the greater the degree of alignment, the stronger the magnetic field. Conversely, materials with equal numbers of electrons in each orientation are non-magnetic.
+        </p>
+        
+        <p class="w-60-l w-100 mw7 mw9-ns center ml0-ns mr0-ns mt2 pr4">
+          But that is where any comparison to physical rotation abruptly ends. Spin is exactly quantized, and separates every particle in the universe into two categories, depending on whether their spin is a whole number like 1 or a half-integer like 1/2. You’re either a boson or a fermion. There are no other options.
+        </p>
+        
+        <p class="w-60-l w-100 mw7 mw9-ns center ml0-ns mr0-ns mt2 pr4">
+          <b>Bosons</b> are particles that convey forces. The photon, for example, carries the electromagnetic force. Any number of bosons with identical properties can exist in the same place at the same time. That’s why you don’t see laser beams pushing each other out of the way: The photons that comprise them are happy to pass through one another without a thought.
+        </p>
+        
+        <!-- Inline image -->
+        <div class="w-50-l mt0 tc">
+          <img src="../resources/images/spin-ballpit.png" class="pl3 pr3 pb2 mw6" style="width: 100% ;float: center ;"/>
+        </div>
+        
+        <p class="w-60-l w-100 mw7 mw9-ns center ml0-ns mr0-ns mt2 pr4">
+          It’s a different story for half-integer spin objects, such as electrons, which belong to the second particle family: <b>fermions</b>. They are the basic components of matter, and follow very different rules. <span class="blue selector" onclick="toggle('sidenote-2')">Nature prohibits fermions<span class="f6 pb2 relative" style="top:-.5rem;">⊕</span></span>
+         <span class="sidenote side f7 sans-serif lh-copy gray fr pr6 pl5 mb3 mt3 pa0-l ma0-l mt1" id="sidenote-2"><span class="f6 pb2 blue relative" style="">⊕ </span>This quantum restraining order on fermions, formally known as the Pauli Exclusion Principle, determines the permitted configurations and quantum properties of electrons at various levels around an atom. It also determines when a given level is “full,” after which any additional electron must go to the next highest level. The organization of the Periodic Table follows the exclusion principle: Elements in each vertical column have similar chemical properties because they have similar electron configurations.</span> with identical properties from occupying the same quantum state in the same system.
+        </p>
+        
+        <p class="w-60-l w-100 mw7 mw9-ns center ml0-ns mr0-ns mt2 pr4">
+          At first, that might seem to forbid the existence of, say, two electrons in the same <b>orbital</b> of an atom, which would put helium entirely out of business. Spin saves the day. Two electrons can occupy the same orbital, but only if one is spin up and the other spin down.
+        </p>
+        
+        <p class="w-60-l w-100 mw7 mw9-ns center ml0-ns mr0-ns mt2 pr4">
+          Spin may be a uniquely quantum phenomenon, but it has many real-world practical applications. One of the best known is medical magnetic resonance imaging (MRI). The human body is full of protons. (Think of all those Hs in H<sub>2</sub>O.) So when a strong magnetic field is applied to the patient inside the scanner, the spins of the protons in the patient’s body are forced into alignment with the field. Then pulses of radio-frequency waves are sent through the body, altering the proton spins. Between pulses, the proton spins “relax” back to their original conditions, giving off signals that are collected and used to build up an image.
+        </p>
+        
+      </div>
+    </div>
+      
+    <script type='text/javascript' src='../resources/js/sidenote.js'></script>
+    <script>iFrameResize({log:false})</script>
+    <script type='text/javascript' src="../resources/js/scroll.js"></script>
+    
+  </body>
+</html>

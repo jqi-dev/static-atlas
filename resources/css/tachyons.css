@@ -760,7 +760,6 @@ img { max-width: 100%; }
    Docs: http://tachyons.io/docs/typography/font-family/
 
 */
-.lora { font-family: 'Lora', serif; }
 .cmu { font-family: 'CMUSerifRoman'; }
 .roboto { font-family: Roboto,sans-serif;}
 .sans-serif { font-family: -apple-system, BlinkMacSystemFont, 'avenir next', avenir, 'helvetica neue', helvetica, ubuntu, roboto, noto, 'segoe ui', arial, sans-serif; }
