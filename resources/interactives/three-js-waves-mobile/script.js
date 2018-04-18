@@ -18,7 +18,7 @@ var fpsCounter = 0;
 $(function() {
     init();
     let width = $('#container').outerWidth()
-    let height = $('#container').outerHeight()
+    let height = $('#container').outerWidth()
     let top =  $('canvas').offset().top
     // document.body.style.height = width/3 + top + 5;
 });
@@ -67,13 +67,13 @@ function init() {
   scene = new THREE.Scene();
   scene.background = new THREE.Color( 0x146bb7 );
 
-  camera = new THREE.PerspectiveCamera( fov, 3, 1, 1000 );
+  camera = new THREE.PerspectiveCamera( fov, 1, 1, 1000 );
   camera.position.set( 0, 0, 97.5 ); //97.5
   camera.lookAt(scene.position);
 
   renderer = new THREE.WebGLRenderer({antialias:true});
   let width = $('#container').outerWidth();
-  let height = $('#container').outerHeight()
+  let height = $('#container').outerWidth()
   renderer.setSize( width, height );
   canvasbox = renderer.domElement;
   $('#container').append( renderer.domElement );
@@ -102,7 +102,7 @@ function init() {
 
   planeShader.transparent = true;
 
-  geometry = new THREE.PlaneBufferGeometry(156, 52, 156, 52); // 156, 52
+  geometry = new THREE.PlaneBufferGeometry(64, 64, 64, 64); // 156, 52
 
   displacement = new Float32Array( geometry.attributes.position.count );
 
@@ -118,7 +118,7 @@ function init() {
   $(renderer.domElement).click(function (e) { //Offset mouse Position
         var posX = $(this).offset().left + $(this).width()/2,
             posY = $(this).offset().top + $(this).height()/2;
-        onWindowClick((e.pageX - posX), (e.pageY - posY))
+        onWindowClick(-(e.pageY - posY), (e.pageX - posX))
     });
   animate();
 }
@@ -187,14 +187,14 @@ function render() {
 
 function onWindowClick (x, y) {
   $('#message').css('opacity', '0.0');
-  let sf = $('#container').outerWidth()/156 // scale factor for mouse location
+  let sf = $('#container').outerWidth()/64 // scale factor for mouse location
   addWave([x/sf, -y/sf, 300, 1]);
   // new ExpandingCircle(x/sf, -y/sf).addTo(CircleArray, circle_lifetime)
 }
 
 function onWindowResize() {
   let width = $('#container').outerWidth()
-  let height = $('#container').outerHeight()
+  let height = $('#container').outerWidth()
   let top =  $('canvas').offset().top
   camera.updateProjectionMatrix();
   renderer.setSize( width, height );
