@@ -24,7 +24,9 @@ margin-bottom: 2.5rem;
 .sidenote {
 display: none;
 opacity: 0;
-animation: fade 1s;
+transition: opacity .25s ;
+-moz-transition: opacity .25s ;
+-webkit-transition: opacity .25s ;
 }
 
 .margin-note {
@@ -47,6 +49,10 @@ margin-top: -2.5rem;
 padding-top: 1rem;
 padding-bottom: 1rem;
 padding-right: 1rem;
+}
+
+header {
+  transition-duration: 0.25s;
 }
 
 @media screen and (min-width: 60em) {
