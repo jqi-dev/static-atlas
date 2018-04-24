@@ -127,7 +127,7 @@
 			uniform vec3 color;
 			void main() {
         vec3 background_color = vec3(0.05, 0.55, 0.78);
-				gl_FragColor = vec4(vec3(color) * vec3(distance * 0.5, distance, distance), distance * 0.5 + 0.25);
+				gl_FragColor = vec4(vec3(color) + vec3(distance * 0.5, distance * 0.25, distance), distance * 0.5 + 0.25);
 			}
 		</script>
 
@@ -145,10 +145,9 @@
               gl_FragColor = vec4(1.0,1.0,1.0,1.0);
             }
             else{
-              gl_FragColor = vec4(0.05, 0.55, 0.78, 1.0);
+              // gl_FragColor = vec4(0.05, 0.55, 0.78, 1.0);
+              gl_FragColor = vec4(0.07, 0.51, 0.85, 1.0);
             }
-            // gl_FragColor = color; // Displays Nothing
-            //gl_FragColor = vec4(0.5, 0.2, 1.0, 1.0); // Works; Displays Flat Color
         }
     </script>
 

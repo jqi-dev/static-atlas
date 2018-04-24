@@ -112,7 +112,6 @@ function init() {
   });
 
   planeShader.depthTest = false;
-
   planeShader.transparent = true;
   geometry = new THREE.PlaneBufferGeometry(300, 100, 300, 100); // 156, 52
 
@@ -122,7 +121,7 @@ function init() {
   );
   bufferScene.add( bufferPlane );
 
-  var waveMaterial = new THREE.MeshBasicMaterial({map:bufferTexture});
+  var waveMaterial = new THREE.MeshPhongMaterial({map:bufferTexture});
   var waveGeometry = new THREE.PlaneGeometry( 300, 100, 4 );
   var waveObject = new THREE.Mesh(waveGeometry, waveMaterial);
   // Add it to the main scene
@@ -132,8 +131,11 @@ function init() {
     texture1: { type: "t", value: bufferTexture }
   };
 
-  var light = new THREE.AmbientLight( 0x404040 ); // soft white light
+  var light = new THREE.AmbientLight( 0x46a4d9, 2.0 ); // soft white light
   scene.add( light );
+
+  var directionalLight = new THREE.DirectionalLight( 0xffffff, 5.0 );
+  scene.add( directionalLight );
 
   var crossShader = new THREE.ShaderMaterial({
       uniforms: crossuniforms,
