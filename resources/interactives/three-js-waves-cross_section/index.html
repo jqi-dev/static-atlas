@@ -1,0 +1,155 @@
+<head>
+    <style>
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'avenir next', avenir, 'helvetica neue', helvetica, ubuntu, roboto, noto, 'segoe ui', arial, sans-serif;
+      background-color: rgba(250, 250, 250, 0.75);
+      margin: 0 0rem;
+    }
+
+    #container {
+      max-width: 1200px;
+      width: 100%;
+      margin: 0px auto;
+      position: relative;
+    }
+
+    #cross-section {
+      height: 100px;
+      max-width: 1200px;
+      width: 100%;
+      margin: 0px auto;
+      position: relative;
+      border-top: 2px solid gray;
+      background-color: rgba(50, 50, 50, 0.75);
+    }
+
+    #message {
+      color: #eaeaea;
+      font-size: .8rem;
+      margin: 0;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin-right: -50%;
+      transform: translate(-50%, -50%);
+      transition: opacity 1s;
+      pointer-events: none;
+    }
+
+    .slider {
+      margin: 10px auto;
+    }
+
+    #controls {
+      max-width: 600px;
+      width: 100%;
+      margin: 0px auto;
+      display: block;
+      text-align: center;
+    }
+
+    canvas {
+      outline: 1px solid #cccccc;
+    }
+
+    .sliders {
+      margin-top: 20px;
+      max-width: 150px;
+      width: 100%;
+      display: inline-block;
+    }
+
+    form {
+      text-align:left;
+      margin-bottom: 20px;
+      /*margin-top: -100px;*/
+      display: inline-block;
+    }
+
+    </style>
+
+    <script type='text/javascript' src="../../../resources/js/three.js"></script>
+    <script type='text/javascript' src="../../../resources/js/iframeResizer.contentWindow.js"></script>
+    <script type='text/javascript' src='../../../resources/js/jquery-3.2.1.min.js'></script>
+    <script type='text/javascript' src="script.js"></script>
+
+</head>
+
+<body>
+  <div id="container">
+  <div id="message">Tap to make ripples!</div>
+  </div>
+  <div id="cross-section"></div>
+
+  <script type="x-shader/x-vertex" id="vertexshader">
+			uniform float amplitude;
+      varying vec2 vUv;
+      uniform vec3 light;
+      uniform int activeWaves;
+      uniform vec4 waves [ 16 ];
+			attribute float displacement;
+      varying float distance;
+      varying float cross;
+			varying vec3 vNormal;
+      varying vec3 fPosition;
+			void main() {
+        vUv = uv;
+				vNormal = normal;
+        cross = 0.0;
+        distance = displacement * 0.5 + 0.5;
+        for (int i=0; i < 16; i++) {
+          float vx = pow((waves[i][0]-position[0]), 2.0);
+          float vy = pow((waves[i][1]-position[1]), 2.0);
+          float hyp = sqrt(vx + vy);
+          float amp = waves[i][3] * 0.5;
+          float edge = 300.0 - waves[i][2];
+          float width = 64.0;
+          if ((hyp < edge) && ((edge - hyp) < width)) {
+            float disp = (1.0 - (edge - hyp)/width) * amp * sin(hyp - edge);
+            distance = distance + disp;
+          }
+          else { distance = distance + 0.0; }
+        }
+        if (position.y > -10.0 && position.y < 10.0) {
+          cross = distance;
+        }
+				vec3 newPosition = position + amplitude * normal * vec3( 1.0 );
+				gl_Position = projectionMatrix * modelViewMatrix * vec4( newPosition, 1.0 );
+        fPosition = gl_Position.xyz;
+			}
+  </script>
+
+  <script type="x-shader/x-fragment" id="fragmentshader">
+			varying vec3 vNormal;
+      varying float distance;
+			varying vec2 vUv;
+			uniform vec3 color;
+			void main() {
+        vec3 background_color = vec3(0.05, 0.55, 0.78);
+				gl_FragColor = vec4(vec3(color) * vec3(distance * 0.5, distance, distance), distance * 0.5 + 0.25);
+			}
+		</script>
+
+      <script id="fragmentshader-cross-texture" type="x-shader/x-fragment">
+        uniform sampler2D texture1;
+        varying vec2 vUv;
+        void main() {
+            float position_x = gl_FragCoord.x / 1200.0;
+            vec2 position = vec2(position_x, 0.5);
+            vec4 color = texture2D(texture1, position);
+            float color_value = color.w * 150.0;
+            float min = color_value + 0.25;
+            float max = color_value + 3.75;
+            if(gl_FragCoord.y > min && gl_FragCoord.y < max) {
+              gl_FragColor = vec4(1.0,1.0,1.0,1.0);
+            }
+            else{
+              gl_FragColor = vec4(0.05, 0.55, 0.78, 1.0);
+            }
+            // gl_FragColor = color; // Displays Nothing
+            //gl_FragColor = vec4(0.5, 0.2, 1.0, 1.0); // Works; Displays Flat Color
+        }
+    </script>
+
+</body>
