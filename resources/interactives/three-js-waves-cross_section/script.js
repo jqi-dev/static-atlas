@@ -193,7 +193,7 @@ function getTop() {
 }
 
 function documentHeight() {
-  return getWidth()/3 + getTop() + 5;
+  return getWidth()/3 + getWidth()/8 + getTop() + 5;
 }
 
 function onWindowResize() {
