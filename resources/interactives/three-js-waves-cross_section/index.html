@@ -28,7 +28,7 @@
 
   #message {
     color: #eaeaea;
-    font-size: .8rem;
+    font-size: 2vw;
     margin: 0;
     position: absolute;
     top: 50%;
@@ -36,6 +36,14 @@
     margin-right: -50%;
     transform: translate(-50%, -50%);
     transition: opacity 1s;
+    pointer-events: none;
+  }
+
+  #overlay {
+    width: 100%;
+    opacity: 0;
+    transition: opacity 1s;
+    position: absolute;
     pointer-events: none;
   }
 
@@ -50,6 +58,7 @@
 
 <body>
   <div id="container">
+    <img src="label.svg" id="overlay">
     <div id="message">Tap to make ripples!</div>
   </div>
   <div id="cross-section"></div>

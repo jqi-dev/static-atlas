@@ -186,6 +186,7 @@ function render() {
 
 function onWindowClick (x, y) {
   $('#message').css('opacity', '0.0');
+  $('#overlay').css('opacity', '1.0');
   let sf = $('#container').outerWidth()/resolution; // scale factor for mouse location
   addWave([x/sf, -y/sf, resolution, 1]);
 }
