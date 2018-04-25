@@ -1,5 +1,4 @@
-var scene, camera, renderer, stats, bufferTexture, bufferScene;
-var plane, displacement, uniforms, geometry, circle, circle2, bufferPlane;
+var scene, camera, waveRenderer, crossRenderer
 var fov = 30,
     isUserInteracting = false,
     cameraDistance = 80,
@@ -12,28 +11,12 @@ var waveArray = [];
 var numWaves = 0;
 var animTime = new Date;
 var fpsCounter = 0;
+var resolution = 300; // 156 originally
 
 $(function() {
     init();
-    let width = $('#container').outerWidth()
-    let top =  $('canvas').offset().top
-    document.body.style.height = width/3 + top + 5;
+    document.body.style.height = documentHeight();
 });
-
-function getFPS() {
-  let newTime = new Date; // get current time
-  let fps = 1000 / (newTime - animTime); // conversion from millisecond to fps
-  animTime = newTime;
-  return fps;
-}
-
-function goodFPS(fps) {
-  fpsCounter += 1;
-  if (fpsCounter > 1) { // allow animation to cycle once (for loading) before determining fps
-    return (fps > 10); // 10 fps
-  }
-  else return true;
-}
 
 function addWave(array) {
   waveArray.set(array, numWaves % 16 * 4); // mod 16 so if array is full latest wave overwrites oldest
@@ -61,26 +44,44 @@ function decTime() {
 
 function init() {
 
-  scene = new THREE.Scene();
+  let width = getWidth();
+  let waveCanvasHeight = width / 3;
+  let crossCanvasHeight = width / 8;
+
+  // Initialize wave array
+  waveArray = new Float32Array(64); // maximum of 16 active waves, each with (x position, y position, time, amplitude)
+  numWaves = 0; // number of active waves
+
+  // renderer for wave canvas
+  waveRenderer = new THREE.WebGLRenderer({antialias:true});
+  waveRenderer.setSize( width, waveCanvasHeight );
+  $('#container').append( waveRenderer.domElement );
+
+  // renderer for cross-section canvas
+  crossRenderer = new THREE.WebGLRenderer({antialias:true});
+  crossRenderer.setSize( width, crossCanvasHeight );
+  $('#cross-section').append( crossRenderer.domElement );
+
+  scene = new THREE.Scene(); // scene for waves
   scene.background = new THREE.Color( 0x0d8cc6 );
+  crossScene = new THREE.Scene(); // scene for cross-section
+  bufferScene = new THREE.Scene(); // scene to store buffer texture
 
-  crossScene = new THREE.Scene();
 
-  renderer = new THREE.WebGLRenderer({antialias:true});
-  let width = $('#container').outerWidth();
-  renderer.setSize( width, width/3 );
-  $('#container').append( renderer.domElement );
-
-  crossrenderer = new THREE.WebGLRenderer({antialias:true});
-  crossrenderer.setSize( width, width/8 );
-  $('#cross-section').append( crossrenderer.domElement );
+  //
+  // Camera for all scenes
+  //
 
   camera = new THREE.OrthographicCamera( width / - 2,
   width / 2,
   width / 6,
   width / - 6, -10000, 10000 );
+  camera.zoom = width / resolution;
+  camera.updateProjectionMatrix();
 
-  bufferScene = new THREE.Scene();
+  //
+  // Set up buffer geometry and buffer texture
+  //
 
   var renderTargetParams = {
     minFilter:THREE.LinearFilter,
@@ -88,73 +89,79 @@ function init() {
     depthBuffer:false
   };
 
-  bufferTexture = new THREE.WebGLRenderTarget( width, width/3, renderTargetParams );
+  bufferTexture = new THREE.WebGLRenderTarget( width, waveCanvasHeight, renderTargetParams );
 
-  camera.zoom = width / 300; // 156 originally
-  camera.updateProjectionMatrix();
-
-  waveArray = new Float32Array(64); // max 16 waves, each with (x position, y position, time, amplitude)
-  numWaves = 0; // number of active waves
-
-  uniforms = THREE.UniformsUtils.merge([
+  var bufferUniforms = THREE.UniformsUtils.merge([
           { activeWaves: {type: "i", value: 1} },
           { waves: {type: "fv", value: waveArray} },
-          THREE.UniformsLib['lights'],
-          { ambient: { type: 'c', value: new THREE.Color(0xff00ff) } },
           { color: { value: new THREE.Color( 0x00ACFC ) } }
       ]);
 
-  var planeShader = new THREE.ShaderMaterial({
-    uniforms: uniforms,
+  var bufferShader = new THREE.ShaderMaterial({
+    uniforms: bufferUniforms,
     vertexShader: document.getElementById( 'vertexshader' ).textContent,
     fragmentShader: document.getElementById( 'fragmentshader' ).textContent,
-    lights: true
   });
+  bufferShader.transparent = true; // so alpha value is used when adding colors
 
-  planeShader.depthTest = false;
-  planeShader.transparent = true;
-  geometry = new THREE.PlaneBufferGeometry(300, 100, 300, 100); // 156, 52
+  var bufferGeometry = new THREE.PlaneBufferGeometry(resolution, resolution / 3, resolution, resolution / 3);
 
-  bufferPlane = new THREE.Mesh(
-      geometry,
-      planeShader
+  var bufferPlane = new THREE.Mesh(
+      bufferGeometry,
+      bufferShader
   );
   bufferScene.add( bufferPlane );
 
+  //
+  // Wave object, displaying the buffer texture
+  //
+
   var waveMaterial = new THREE.MeshPhongMaterial({map:bufferTexture});
-  var waveGeometry = new THREE.PlaneGeometry( 300, 100, 4 );
+  var waveGeometry = new THREE.PlaneGeometry( resolution, resolution / 3, 4 );
   var waveObject = new THREE.Mesh(waveGeometry, waveMaterial);
-  // Add it to the main scene
   scene.add(waveObject);
 
-  var crossuniforms = {
-    texture1: { type: "t", value: bufferTexture }
+  //
+  // Cross-section object, which uses a fragment shader to display a section of the buffer texture
+  //
+
+  var crossUniforms = {
+    bufferTexture: { type: "t", value: bufferTexture }
   };
 
-  var light = new THREE.AmbientLight( 0x46a4d9, 2.0 ); // soft white light
-  scene.add( light );
-
-  var directionalLight = new THREE.DirectionalLight( 0xffffff, 5.0 );
-  scene.add( directionalLight );
-
   var crossShader = new THREE.ShaderMaterial({
-      uniforms: crossuniforms,
+      uniforms: crossUniforms,
       vertexShader: document.getElementById('vertexshader').innerHTML,
       fragmentShader:document.getElementById('fragmentshader-cross-texture').innerHTML
   });
 
   var crossPlane = new THREE.Mesh(
-      geometry,
+      waveGeometry,
       crossShader
   );
   crossScene.add( crossPlane );
 
+  //
+  // Add lights to wave scene
+  //
+
+  var ambientLight = new THREE.AmbientLight( 0x46a4d9, 2.0 );
+  scene.add( ambientLight );
+
+  var directionalLight = new THREE.DirectionalLight( 0xffffff, 5.0 );
+  scene.add( directionalLight );
+
+  //
+  //  Handle click and resize events;
+  //
+
   $(window).on( 'resize', onWindowResize );
-  $(renderer.domElement).click(function (e) { //Offset mouse Position
+  $(waveRenderer.domElement).click(function (e) { //Offset mouse Position
         var posX = $(this).offset().left + $(this).width()/2,
             posY = $(this).offset().top + $(this).height()/2;
         onWindowClick((e.pageX - posX), (e.pageY - posY))
     });
+
   animate();
 }
 
@@ -170,22 +177,48 @@ function animate() {
 }
 
 function render() {
-  renderer.render(bufferScene, camera, bufferTexture);
-  renderer.render(scene, camera);
-  crossrenderer.render(bufferScene, camera, bufferTexture);
-  crossrenderer.render(crossScene, camera)
+  waveRenderer.render(bufferScene, camera, bufferTexture);
+  waveRenderer.render(scene, camera);
+  crossRenderer.render(bufferScene, camera, bufferTexture);
+  crossRenderer.render(crossScene, camera)
 }
 
 function onWindowClick (x, y) {
   $('#message').css('opacity', '0.0');
-  let sf = $('#container').outerWidth()/300 // scale factor for mouse location
-  addWave([x/sf, -y/sf, 300, 1]);
+  let sf = $('#container').outerWidth()/resolution; // scale factor for mouse location
+  addWave([x/sf, -y/sf, resolution, 1]);
+}
+
+function getWidth() {
+  return $('#container').outerWidth();
+}
+
+function getTop() {
+  return $('canvas').offset().top;
+}
+
+function documentHeight() {
+  return getWidth()/3 + getTop() + 5;
 }
 
 function onWindowResize() {
-  let width = $('#container').outerWidth()
-  let top =  $('canvas').offset().top
   camera.updateProjectionMatrix();
-  renderer.setSize( width, width/3 );
-  document.body.style.height = width/3 + top + 5;
+  waveRenderer.setSize( getWidth(), getWidth()/3 );
+  crossRenderer.setSize( getWidth(), getWidth()/8 );
+  document.body.style.height = documentHeight();
+}
+
+function getFPS() {
+  let newTime = new Date; // get current time
+  let fps = 1000 / (newTime - animTime); // conversion from millisecond to fps
+  animTime = newTime;
+  return fps;
+}
+
+function goodFPS(fps) {
+  fpsCounter += 1;
+  if (fpsCounter > 1) { // allow animation to cycle once (for loading) before determining fps
+    return (fps > 10); // 10 fps
+  }
+  else return true;
 }
