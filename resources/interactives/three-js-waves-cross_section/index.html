@@ -97,12 +97,13 @@
   <script id="fragmentshader-cross-texture" type="x-shader/x-fragment">
     uniform sampler2D bufferTexture;
     varying vec2 vUv;
+    uniform vec2 size;
     void main() {
         float lineWidth = 3.0;
-        float position_x = gl_FragCoord.x / 1200.0;
+        float position_x = gl_FragCoord.x / size[0];
         vec2 position = vec2(position_x, 0.5);
         vec4 color = texture2D(bufferTexture, position);
-        float color_value = color.w * 150.0;
+        float color_value = color.w * size[1];
         float min = color_value + 0.25;
         float max = color_value + 0.75 + lineWidth;
         if(gl_FragCoord.y > min && gl_FragCoord.y < max) {

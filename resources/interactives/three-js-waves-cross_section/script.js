@@ -1,4 +1,4 @@
-var scene, camera, waveRenderer, crossRenderer
+var scene, camera, waveRenderer, crossRenderer, crossShader, crossPlane;
 var fov = 30,
     isUserInteracting = false,
     cameraDistance = 80,
@@ -126,16 +126,17 @@ function init() {
   //
 
   var crossUniforms = {
-    bufferTexture: { type: "t", value: bufferTexture }
+    bufferTexture: { type: "t", value: bufferTexture },
+    size: { type: "v2", value: new THREE.Vector2( getWidth(), getWidth()/8)},
   };
 
-  var crossShader = new THREE.ShaderMaterial({
+  crossShader = new THREE.ShaderMaterial({
       uniforms: crossUniforms,
       vertexShader: document.getElementById('vertexshader').innerHTML,
       fragmentShader:document.getElementById('fragmentshader-cross-texture').innerHTML
   });
 
-  var crossPlane = new THREE.Mesh(
+  crossPlane = new THREE.Mesh(
       waveGeometry,
       crossShader
   );
@@ -203,9 +204,14 @@ function documentHeight() {
 
 function onWindowResize() {
   camera.updateProjectionMatrix();
+  updateShaderResolution();
   waveRenderer.setSize( getWidth(), getWidth()/3 );
   crossRenderer.setSize( getWidth(), getWidth()/8 );
   document.body.style.height = documentHeight();
+}
+
+function updateShaderResolution() {
+  crossPlane.material.uniforms.size.value = new THREE.Vector2(getWidth(), getWidth()/8);
 }
 
 function getFPS() {
