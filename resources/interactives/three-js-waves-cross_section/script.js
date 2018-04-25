@@ -1,11 +1,4 @@
 var scene, camera, waveRenderer, crossRenderer, crossShader, crossPlane;
-var fov = 30,
-    isUserInteracting = false,
-    cameraDistance = 80,
-    onMouseDownMouseX = 0, onMouseDownMouseY = 0,
-    lon = 0, onMouseDownLon = 0,
-    lat = 0, onMouseDownLat = 0,
-    phi = 0, theta = 0;
 var circle_lifetime = 10000;
 var waveArray = [];
 var numWaves = 0;
