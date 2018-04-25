@@ -1,33 +1,38 @@
 <html>
   <head>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.4/TweenMax.min.js"></script>
-    <link rel="stylesheet" type="text/css" media="all" href="../../tachyons.css"/>
+    <script type='text/javascript' src="../../../resources/js/iframeResizer.contentWindow.js"></script>
+    <link rel="stylesheet" type="text/css" media="all" href="../../css/tachyons.css"/>
     <style>
     #label {
-      top: 80%;
-      background-color:rgba(255, 255, 255, 0.25);
+      top: 78%;
+    }
+    .shaded {
+      background-color:rgba(255, 255, 255, 0.5);
     }
     #buttons {
       z-index: 4;
-      top: 90%;
+      top: 89%;
     }
     </style>
   </head>
   <body>
-    <div class="w-100 mw7 center mt4 sans-serif dark-gray overflow-hidden relative" id="container">
-      <div class="center w-100 tc z-3 f1 v-top absolute pa2 blue outline" id="label">100,000x</div>
-      <div class="w-100 mt1 absolute" id="buttons">
-        <div class="w-100 mw4 center">
-          <a class="f1 link dim ph3 code pv2 mb2 dib w-50 fr tc outline" href="#0" onclick="increment(1)">+</a>
-          <a class="f1 link dim ph3 code pv2 mb2 dib w-50 tc outline" href="#0" onclick="increment(-1)">-</a>
+    <div class="w-100 mw7 center bg-moon-gray">
+      <div class="w-100 mw5 center sans-serif dark-gray overflow-hidden relative" id="container">
+        <div class="center w-100 tc z-3 f2 v-top absolute pa2 blue outline shaded" id="label">100,000x</div>
+        <div class="w-100 absolute" id="buttons">
+          <div class="w-100 mw4 center">
+            <a class="f2 link dim ph3 code pv2 mb2 dib w-40 fr tc outline shaded" href="#0" onclick="increment(1)">+</a>
+            <a class="f2 link dim ph3 code pv2 mb2 dib w-40 fl tc outline shaded" href="#0" onclick="increment(-1)">-</a>
+        </div>
+        </div>
+        <img src="images/hair.png" class="absolute w-100 z-1" id="hair">
+        <img src="images/bacteria.png" class="absolute w-100 z-1" id="bacteria">
+        <img src="images/atom.png" class="absolute w-100 z-1" id="atom">
+        <img src="images/glass.png" class="absolute w-100 z-2" id="glass">
+        <img src="images/glass.png" class="absolute w-100 z-2" id="glass-hidden">
+        <img src="images/dog-fade.png" class="relative w-100" id="dog">
       </div>
-      </div>
-      <img src="hair.png" class="absolute mw7 z-1" id="hair">
-      <img src="bacteria.png" class="absolute mw7 z-1" id="bacteria">
-      <img src="atom.png" class="absolute mw7 z-1" id="atom">
-      <img src="glass.png" class="absolute mw7 z-2" id="glass">
-      <img src="glass.png" class="absolute mw7 z-2" id="glass-hidden">
-      <img src="dog.png" class="relative mw7" id="dog">
     </div>
   </body>
 
