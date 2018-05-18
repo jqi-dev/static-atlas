@@ -10,8 +10,12 @@
 
     <!-- Scripts -->
     <script type='text/javascript' src='../resources/js/jquery-3.2.1.min.js'></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.4/TweenMax.min.js"></script>
     <script type='text/javascript' src="../resources/js/iframeResizer.js"></script>
     <script type='text/javascript' src="../resources/node_modules/lightbox2/dist/js/lightbox.js"></script>
+    <script type='text/javascript' src="../resources/js/ScrollMagic.min.js"></script>
+    <script type='text/javascript' src="../resources/js/animation.gsap.min.js"></script>
+    <script type='text/javascript' src="../resources/js/debug.addIndicators.min.js"></script>
 
     <!-- Fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora">
@@ -71,6 +75,58 @@
           It works like this: As a result of <span class="blue selector" onclick="toggle('sidenote-1')">some quantum processes,<span class="f6 pb2 relative" style="top:-.5rem;">⊕</span></span>
          <span class="sidenote side f7 sans-serif lh-copy gray fr pr6 pl5 mb3 mt3 pa0-l ma0-l mt1" id="sidenote-1"><span class="f6 pb2 blue relative" style="">⊕ </span> For example, a particle with 0 spin might decay into two entangled particles with -1/2 and +1/2 spin. Alternatively, when a laser beam travels through a certain kind of “nonlinear” crystal, it sometimes splits into pairs of entangled photons.</span>two or more objects (photons, electrons, atoms, etc.) become so inextricably intertwined—"entangled"—that even if they are physically separated by a great distance, they have a shared connection and cannot be described independently.
         </p>
+
+        <!-- Interactive component and caption -->
+        <div class="w-100-l mt4 mb5">
+          <div class="relative w-100-l mt2 mt0-l">
+            <div  class="w-100">
+              <script>
+              var controller = new ScrollMagic.Controller();
+              </script>
+              <div class="w-100 mw7 center overflow-hidden" id="container">
+                <img src="../resources/interactives/atom-bubble/atom-left-01.svg" class="absolute w-100 center mw7 z-1" id="atom-left">
+                <img src="../resources/interactives/atom-bubble/atom-right-01.svg" class="absolute w-100 center mw7 z-1" id="atom-right">
+                <div class="w-50 relative fl overflow-hidden ma0">
+                  <img src="../resources/interactives/atom-bubble/bubble-left-01-02.svg" class="relative w-100" id="bubble-left">
+                </div>
+                <div class="w-50 relative fr overflow-hidden">
+                  <img src="../resources/interactives/atom-bubble/bubble-right-01-03.svg" class="relative w-100" id="bubble-right">
+                </div>
+              </div>
+
+              <script>
+
+                function getWidth() {
+                  return $('#container').outerWidth();
+                }
+
+                var controller = new ScrollMagic.Controller();
+
+                TweenMax.set("#bubble-left", {x:getWidth()/2 - getWidth()/30})
+                TweenMax.set("#bubble-right", {x:-(getWidth()/2 - getWidth()/30)})
+
+                var ease = "Power2.easeInOut";
+                var tl = new TimelineMax();
+                tl.to("#bubble-left", 2, {x: getWidth()/6, ease: ease});
+                tl.to("#bubble-right", 2, {x: -getWidth()/6, ease: ease}, 0);
+                tl.to("#atom-left", 2, {x: -(getWidth()/4 + getWidth()/20), ease: ease}, 0);
+                tl.to("#atom-right", 2, {x: getWidth()/4 + getWidth()/20, ease: ease}, 0);
+
+                // build scene
+                var scene = new ScrollMagic.Scene({
+                          triggerElement: "#container"
+                        })
+                        .setTween(tl)
+                        .addTo(controller);
+
+              </script>
+
+            </div>
+          </div>
+        </div>
+        <div style="height: 100px;" class="w-40-l w-100 fr pl2 pr2 pl3-l pr0-l">
+          <p class="w-90-l w-100 mw7 center pl4 f7 fr-l sans-serif gray lh-copy mt1 ba b--moon-gray bg-light-gray caption">Entanglement persists even when entangled particles are seperated.</p>
+        </div>
 
         <p class="w-60-l w-100 mw7 mw9-ns center ml0-ns mr0-ns mt2 pr4">
 				This leads to seemingly incredible outcomes: When you measure a property of one of a pair of entangled quantum objects (such as its momentum, polarization, or <a href="spin.html">spin</a>), and then measure the same property on the other object, the results are <i>always</i>, <i>invariably</i> correlated. It looks suspiciously like the measurement of the first object instantaneously determines the properties of the second object.
