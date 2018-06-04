@@ -22,8 +22,8 @@
         <div class="center w-100 tc z-3 f2 v-top absolute pa2 blue outline shaded" id="label">100,000x</div>
         <div class="w-100 absolute" id="buttons">
           <div class="w-100 mw4 center">
-            <a class="f2 link dim ph3 code pv2 mb2 dib w-40 fr tc outline shaded" href="#0" onclick="increment(1)">+</a>
-            <a class="f2 link dim ph3 code pv2 mb2 dib w-40 fl tc outline shaded" href="#0" onclick="increment(-1)">-</a>
+            <div class="f2 pointer blue no-underline dim ph3 code pv2 mb2 dib w-40 fr tc outline shaded" href="#0" onclick="increment(1)" id="buttonplus">+</div>
+            <div class="f2 pointer blue no-underline dim ph3 code pv2 mb2 dib w-40 fl tc outline shaded" href="#0" onclick="increment(-1)" id="buttonminus">-</div>
         </div>
         </div>
         <img src="images/hair.png" class="absolute w-100 z-1" id="hair">
@@ -65,6 +65,7 @@
       return;
     }
     swapGlass(val);
+    buttonOpacity(state);
     tweenState(state, val);
     modifyLabel(state)
   }
@@ -87,6 +88,24 @@
     tweenArray[state] = 1;
     for (var i = 0; i < images.length; i++) {
       TweenMax.to(images[i], 0.5, {opacity: tweenArray[i + 1], delay:tweenArray[i + 1]})
+    }
+  }
+
+  function buttonOpacity(state) {
+    let buttonminus = document.getElementById("buttonminus");
+    let buttonplus = document.getElementById("buttonplus");
+    buttonminus.style.opacity = 1.0;
+    buttonminus.style.cursor = "pointer";
+    buttonplus.style.opacity = 1.0;
+    buttonplus.style.cursor = "pointer";
+    console.log(state)
+    if (state == 0) {
+      buttonminus.style.opacity = 0.5;
+      buttonminus.style.cursor = "auto";
+    }
+    if (state == 3) {
+      buttonplus.style.opacity = 0.5;
+      buttonplus.style.cursor = "auto";
     }
   }
 
