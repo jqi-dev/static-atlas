@@ -140,7 +140,6 @@
           // set random target for each sphere and enable depth writing
           event.preventDefault();
           spheres.forEach(function(movingsphere) {
-            console.log(w/(400 * 1/dpi))
             movingsphere.target = [
               getRand(-0.1,0.1),
               getRand(-w/(cameraScale * 2 * 1/dpi), w/(cameraScale * 2 * 1/dpi)),
