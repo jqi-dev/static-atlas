@@ -3,22 +3,26 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title>Measurement</title>
-    <link rel="stylesheet" href="../../../resources/css/tachyons.css">
+    <link rel="stylesheet" href="../tachyons.css">
+    <style>
+      #container {
+        height: 30rem;
+      }
+    </style>
 </head>
 <body class="sans-serif">
 
-    <div id="container" class="w-100" style="height: 30rem;"></div>
+    <div id="container" class="w-100"></div>
 
-    <script src="../../../resources/js/three.js"></script>
-    <script src="../../../resources/js/jquery-3.2.1.min.js"></script>
+    <script type='text/javascript' src="../../../resources/js/three.js"></script>
     <script type='text/javascript' src="../../../resources/js/iframeResizer.contentWindow.js"></script>
+    <script type='text/javascript' src='../../../resources/js/jquery-3.2.1.min.js'></script>
     <script src="randomColor.js"></script>
 
     <script>
 
         var scene, camera, cameraScale, renderer;
         var w, h;
-        var dpi;
         var frustum = new THREE.Frustum();
         var cameraViewProjectionMatrix = new THREE.Matrix4();
         var lights = [];
@@ -29,8 +33,6 @@
 
             w = $('#container').outerWidth();
             h = $('#container').outerHeight();
-
-            dpi = window.devicePixelRatio;
 
             cameraScale = 200;
             // regular scene creation
@@ -43,6 +45,7 @@
             renderer = new THREE.WebGLRenderer( { alpha: true, antialias: true } );
             renderer.setClearColor (0x004d80, 1);
             renderer.setSize( w,h );
+            renderer.setPixelRatio(1)
             document.getElementById("container").append( renderer.domElement );
 
             // add spheres
@@ -96,8 +99,8 @@
           this.sphere = new THREE.Mesh( geometry, material );
           this.sphere.position.set(
             getRand(-0.1,0.1),
-            getRand(-h/(cameraScale * 2 * 1/dpi), h/(cameraScale * 2 * 1/dpi)),
-            getRand(-w/(cameraScale * 2 * 1/dpi), w/(cameraScale * 2 * 1/dpi)));
+            getRand(-h/(cameraScale), h/(cameraScale)),
+            getRand(-w/(cameraScale), w/(cameraScale)));
           spheres.push(this);
           scene.add(this.sphere);
         }
@@ -125,10 +128,10 @@
           event.preventDefault();
           let x = event.clientX;
           let y = event.clientY;
-          let zpos = -(x/w - 0.5) * w/(cameraScale * 1/dpi);
-          let ypos = -(y/h - 0.5) * h/(cameraScale * 1/dpi);
+          let zpos = -(x/w - 0.5) * 2 * w/(cameraScale);
+          let ypos = -(y/h - 0.5) * 2 * h/(cameraScale);
           spheres.forEach(function(movingsphere) {
-            movingsphere.target = [0, zpos, ypos];
+            movingsphere.target = [0, ypos, zpos];
             movingsphere.targetDistance = 0.0;
             movingsphere.vz = 0.0;
             movingsphere.vy = 0.0;
@@ -142,8 +145,8 @@
           spheres.forEach(function(movingsphere) {
             movingsphere.target = [
               getRand(-0.1,0.1),
-              getRand(-w/(cameraScale * 2 * 1/dpi), w/(cameraScale * 2 * 1/dpi)),
-              getRand(-h/(cameraScale * 2 * 1/dpi), h/(cameraScale * 2 * 1/dpi))];
+              getRand(-h/cameraScale, h/cameraScale),
+              getRand(-w/cameraScale, w/cameraScale)];
             movingsphere.targetDistance = 0.5;
             movingsphere.vz = getRand(-0.01, 0.01);
             movingsphere.vy = getRand(-0.01, 0.01);
@@ -154,9 +157,6 @@
         //update loop
         function update()
         {
-            // just in case browser zoom level changes
-            dpi = window.devicePixelRatio;
-
             // going to use the camera frustrum to check if sphere is off-screen
             camera.updateMatrixWorld(); // make sure the camera matrix is updated
             camera.matrixWorldInverse.getInverse( camera.matrixWorld );
@@ -171,8 +171,8 @@
               if (movingsphere.target) {
                 let easingAmount = 0.08;
                 var xDistance = movingsphere.target[0] - movingsphere.sphere.position.x;
-                var zDistance = movingsphere.target[1] - movingsphere.sphere.position.z;
-                var yDistance = movingsphere.target[2] - movingsphere.sphere.position.y;
+                var yDistance = movingsphere.target[1] - movingsphere.sphere.position.y;
+                var zDistance = movingsphere.target[2] - movingsphere.sphere.position.z;
                 var distance = Math.sqrt(zDistance * zDistance + yDistance * yDistance + xDistance * xDistance);
                 // if still out of target distance, move to target
                 if (distance > movingsphere.targetDistance) {
