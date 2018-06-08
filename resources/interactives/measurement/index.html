@@ -110,7 +110,7 @@
         }
 
 
-        function onResize() {
+        function onResize(e) {
           // recalculate renderer size and orthographic camera bounds
           w = window.innerWidth;
           h = window.innerHeight;
@@ -122,7 +122,7 @@
           camera.updateProjectionMatrix();
         }
 
-        function onMouseDown() {
+        function onMouseDown(event) {
           // set target for each sphere to mouse location and disable depth writing
           event.preventDefault();
           let x = event.clientX;
@@ -138,7 +138,7 @@
           });
         }
 
-        function onMouseUp() {
+        function onMouseUp(event) {
           // set random target for each sphere and enable depth writing
           event.preventDefault();
           spheres.forEach(function(movingsphere) {
