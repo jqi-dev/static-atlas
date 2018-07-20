@@ -83,7 +83,7 @@ eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n\tvalue: true\n});\n
 /*! ModuleConcatenation bailout: Module is not an ECMAScript module */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loader/lib/css-base.js */ \"./node_modules/css-loader/lib/css-base.js\")(false);\n// imports\n\n\n// module\nexports.push([module.i, \".👨🏽‍💻🏄🏼🎼🆎client-entries-TestEntry-TestEntry__TestEntry--2ijVG {\\n  color: blue; }\\n\", \"\"]);\n\n// exports\nexports.locals = {\n\t\"TestEntry\": \"👨🏽‍💻🏄🏼🎼🆎client-entries-TestEntry-TestEntry__TestEntry--2ijVG\"\n};\n\n//# sourceURL=webpack:///./client/entries/TestEntry/TestEntry.sass?./node_modules/css-loader??ref--8-1!./node_modules/sass-loader/lib/loader.js");
+eval("exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loader/lib/css-base.js */ \"./node_modules/css-loader/lib/css-base.js\")(false);\n// imports\n\n\n// module\nexports.push([module.i, \".🐄🙇🏿‍♂️🏊🏾🤝🏾client-entries-TestEntry-TestEntry__TestEntry--2ijVG {\\n  color: blue; }\\n\", \"\"]);\n\n// exports\nexports.locals = {\n\t\"TestEntry\": \"🐄🙇🏿‍♂️🏊🏾🤝🏾client-entries-TestEntry-TestEntry__TestEntry--2ijVG\"\n};\n\n//# sourceURL=webpack:///./client/entries/TestEntry/TestEntry.sass?./node_modules/css-loader??ref--8-1!./node_modules/sass-loader/lib/loader.js");
 
 /***/ })
 
